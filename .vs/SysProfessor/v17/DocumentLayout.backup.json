@@ -1,0 +1,70 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Sistemas\\SysProfessor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FrmHome.cs",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\FrmHome.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs",
+              "RelativeToolTip": "SysProfessor\\FrmHome.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAcwBQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-16T22:10:18.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FrmHome.cs [Design]",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\FrmHome.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs [Design]",
+              "RelativeToolTip": "SysProfessor\\FrmHome.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-16T22:10:16.155Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Data.cs",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\Data.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
+              "RelativeToolTip": "SysProfessor\\Data.cs",
+              "ViewState": "AgIAAHYBAAAAAAAAAAAwwF8AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-16T18:42:06.601Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+Nome do banco de dados: dbprofessor
+
+tabelas:
+CREATE TABLE alunos (
+	idaluno INT PRIMARY KEY IDENTITY(1,1),
+	nome VARCHAR(100) NOT NULL,
+	numero INT NOT NULL
+);
+
+CREATE TABLE materias (
+	idmateria INT PRIMARY KEY IDENTITY(1,1),
+	nome VARCHAR(100) NOT NULL,
+	media DECIMAL(5, 2) NOT NULL
+);
+
+CREATE TABLE configuracao (
+	id INT PRIMARY KEY IDENTITY(1,1),
+	nome_professor VARCHAR(100),
+	nome_escola VARCHAR(100)
+);
+
+CREATE TABLE notas (
+	idnotas INT PRIMARY KEY IDENTITY(1,1),
+	idaluno INT NOT NULL,
+	idmateria INT NOT NULL,
+	notapt DECIMAL(5, 2) NOT NULL,
+	notast DECIMAL(5, 2) NOT NULL,
+	notatt DECIMAL(5, 2) NOT NULL,
+	notaqt DECIMAL(5, 2) NOT NULL,
+	FOREIGN KEY (idaluno) REFERENCES alunos(idaluno),
+	FOREIGN KEY (idmateria) REFERENCES materias(idmateria)
+);

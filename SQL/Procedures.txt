@@ -1,0 +1,171 @@
+USE dbprofessor
+
+--procedimento show, para mostrar os alunos
+CREATE PROC spshow_students
+AS
+SELECT TOP 75 * FROM alunos
+ORDER BY numero ASC
+GO
+
+-- Procedimento para buscar aluno por nome
+CREATE PROC spsearch_student_name
+    @name VARCHAR(100)
+AS
+BEGIN
+    SELECT * 
+    FROM alunos 
+    WHERE nome LIKE @name + '%' 
+    ORDER BY numero ASC;
+END
+GO
+
+--procedimento inserir aluno
+CREATE PROC spinsert_student
+@name VARCHAR(100),
+@num INT
+AS
+INSERT INTO alunos (nome, numero)
+VALUES (@name, @num)
+GO
+
+--procedimento editar aluno
+CREATE PROC spedit_student
+@idstudent INT,
+@name VARCHAR(100),
+@num INT
+AS
+UPDATE alunos
+SET nome = @name, 
+	numero = @num
+WHERE idaluno = @idstudent
+GO
+
+--procedimento deletar aluno
+CREATE PROC spdel_studant
+@idstudent INT
+AS
+delete from alunos
+where idaluno = @idstudent
+GO
+
+
+--procedimento show, para mostrar as materias
+CREATE PROC spshow_discipline
+AS
+SELECT TOP 75 * FROM materias
+ORDER BY idmateria DESC
+GO
+
+--procedimento buscar materia por nome
+CREATE PROC spsearch_discipline_name
+@name VARCHAR(100)
+AS 
+SELECT * FROM materias WHERE nome LIKE @name+ '%'
+GO
+
+--procedimento inserir materia
+CREATE PROC spinsert_discipline
+@name VARCHAR(100),
+@average DECIMAL(5, 2)
+AS
+INSERT INTO materias (nome, media)
+VALUES (@name, @average)
+GO
+
+--procedimento editar materia
+CREATE PROC spedit_discipline
+@iddiscipline INT,
+@name VARCHAR(100),
+@average DECIMAL(5, 2)
+AS
+UPDATE materias
+SET nome = @name, 
+	media = @average
+WHERE idmateria = @iddiscipline
+GO
+
+--procedimento deletar materia
+CREATE PROC spdelete_discipline
+@iddiscipline INT
+AS
+DELETE FROM materias 
+WHERE idmateria = @iddiscipline
+GO
+
+--procedimento para verificar a quantidade de alunos registrados
+CREATE PROCEDURE sp_get_studants_amount
+	@amount INT OUTPUT
+AS
+BEGIN
+    SET @amount = 0;
+    SELECT @amount = COUNT(*) FROM alunos;
+END;
+GO
+
+--procedimento para verificar a quantidade de materias registrados
+CREATE PROCEDURE sp_get_discipline_amount
+	@amount INT OUTPUT
+AS
+BEGIN
+    SET @amount = 0;
+    SELECT @amount = COUNT(*) FROM materias;
+END;
+GO
+
+--procedimento para ler as configurações
+CREATE PROCEDURE sp_read_configurations
+    @professor_name VARCHAR(100) OUTPUT,
+    @scholl_name VARCHAR(100) OUTPUT
+AS
+BEGIN
+    SET @professor_name = NULL;
+    SET @scholl_name = NULL;
+
+    IF EXISTS (SELECT 1 FROM dbo.configuracao)
+    BEGIN
+        SELECT TOP 1
+            @professor_name = nome_professor,
+            @scholl_name = nome_escola
+        FROM dbo.configuracao;
+    END
+END;
+GO
+
+--prodecimento para editar as configurações
+CREATE PROC spedit_configurations
+@id_conf INT,
+@professor_name VARCHAR(100),
+@scholl_name VARCHAR(100)
+as
+UPDATE configuracao
+SET nome_professor = @professor_name,
+	nome_escola = @scholl_name
+WHERE id = @id_conf
+GO
+
+--procedimento inserir configuração
+CREATE PROC spinsert_configurations
+@professor_name VARCHAR(100),
+@scholl_name VARCHAR(100)
+AS
+INSERT INTO configuracao
+VALUES (@professor_name, @scholl_name)
+GO
+
+--procedimento para verificar se existe alguma configuração e pegar o id
+CREATE PROCEDURE sp_verify_configurations_data
+    @Registered BIT OUTPUT,
+    @Id INT OUTPUT
+AS
+BEGIN
+    SET @Registered = 0;
+    SET @Id = -1;
+
+    IF EXISTS (SELECT 1 FROM dbo.configuracao)
+    BEGIN
+        SELECT TOP 1 @Id = id FROM dbo.configuracao;
+
+        SET @Registered = 1;
+    END
+END;
+GO
