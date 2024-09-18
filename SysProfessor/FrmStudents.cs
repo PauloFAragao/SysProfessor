@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SysProfessor
@@ -73,7 +66,8 @@ namespace SysProfessor
         private void BtnView_Click(object sender, EventArgs e)
         {
             FormLoader.OpenChildForm(new FrmViewStudent(
-                Convert.ToInt32(this.DgvStudants.CurrentRow.Cells["idaluno"].Value)
+                Convert.ToInt32(this.DgvStudants.CurrentRow.Cells["idaluno"].Value),
+                Convert.ToString(this.DgvStudants.CurrentRow.Cells["nome"].Value)
                 ));
         }
 

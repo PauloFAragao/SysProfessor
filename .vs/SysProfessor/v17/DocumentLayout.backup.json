@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Sistemas\\SysProfessor\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmviewstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmviewstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmeditscores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmeditscores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmeditscores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmeditscores.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmhome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,39 +31,52 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "FrmHome.cs",
-              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs",
-              "RelativeDocumentMoniker": "SysProfessor\\FrmHome.cs",
-              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs",
-              "RelativeToolTip": "SysProfessor\\FrmHome.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAcwBQAAAAaAAAAAAAAAA==",
+              "Title": "FrmEditScores.cs [Design]",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmEditScores.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\FrmEditScores.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmEditScores.cs [Design]*",
+              "RelativeToolTip": "SysProfessor\\FrmEditScores.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T22:10:18.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FrmHome.cs [Design]",
-              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs",
-              "RelativeDocumentMoniker": "SysProfessor\\FrmHome.cs",
-              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmHome.cs [Design]",
-              "RelativeToolTip": "SysProfessor\\FrmHome.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T22:10:16.155Z",
+              "WhenOpened": "2024-09-17T20:58:16.933Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FrmEditScores.cs",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmEditScores.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\FrmEditScores.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmEditScores.cs*",
+              "RelativeToolTip": "SysProfessor\\FrmEditScores.cs*",
+              "ViewState": "AgIAALYAAAAAAAAAAADwv8oAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-17T20:14:51.024Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "FrmViewStudent.cs",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmViewStudent.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\FrmViewStudent.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmViewStudent.cs",
+              "RelativeToolTip": "SysProfessor\\FrmViewStudent.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAuwFgAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-17T18:18:02.785Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Data.cs",
               "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
               "RelativeDocumentMoniker": "SysProfessor\\Data.cs",
               "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
               "RelativeToolTip": "SysProfessor\\Data.cs",
-              "ViewState": "AgIAAHYBAAAAAAAAAAAwwF8AAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAIMDAAAAAAAAAAAxwIkDAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-16T18:42:06.601Z",
+              "WhenOpened": "2024-09-17T18:41:33.143Z",
               "EditorCaption": ""
             }
           ]

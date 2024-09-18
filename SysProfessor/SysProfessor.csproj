@@ -79,6 +79,12 @@
     <Compile Include="FrmDisciplines.Designer.cs">
       <DependentUpon>FrmDisciplines.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmEditScores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEditScores.Designer.cs">
+      <DependentUpon>FrmEditScores.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmHome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmDisciplines.resx">
       <DependentUpon>FrmDisciplines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEditScores.resx">
+      <DependentUpon>FrmEditScores.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmHome.resx">
       <DependentUpon>FrmHome.cs</DependentUpon>

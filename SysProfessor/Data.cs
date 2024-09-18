@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Xml.Linq;
+using System.Data.SqlTypes;
 
 namespace SysProfessor
 {
@@ -835,6 +836,204 @@ namespace SysProfessor
             }
 
             return result;
+        }
+
+        public static DataTable GetStudantDiscliplines(int idStudant)
+        {
+            DataTable dtResult = new DataTable("disciplines");
+
+            //lista de tuplas para guardar as materias
+            List<Tuple<int, string, decimal>> disciplines = new List<Tuple<int, string, decimal>>();
+
+            // Objeto da conexão com o banco de dados
+            using (SqlConnection SqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    // Abrindo a conexão ao banco de dados
+                    SqlCon.Open();
+
+                    // Comando SQL - que está no banco de dados
+                    using (SqlCommand sqlCmd = new SqlCommand("spshow_discipline", SqlCon))
+                    {
+                        //Define o tipo de comando como StoredProcedure, 
+                        //o que indica que estamos chamando um procedimento armazenado no banco de dados.
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = sqlCmd.ExecuteReader())
+                        {
+                            // Ler e manipular os dados
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32(0);
+                                string name = reader.GetString(1);
+                                decimal media = reader.GetDecimal(2);
+
+                                //Debug.WriteLine($"id: {id} nome: {name} media: {media}");
+
+                                //criando uma tupla
+                                Tuple<int, string, decimal> disciplione = Tuple.Create(id, name, media);
+
+                                //adicinando a tupla a lista de tuplas
+                                disciplines.Add(disciplione);
+                            }
+                        }
+                    }
+
+                    // Comando SQL - que está no banco de dados
+                    using (SqlCommand sqlCmd = new SqlCommand("spsearch_scores_from_studant", SqlCon))
+                    {
+                        //Define o tipo de comando como StoredProcedure, 
+                        //o que indica que estamos chamando um procedimento armazenado no banco de dados.
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter parIdStudant = new SqlParameter
+                        {
+                            ParameterName = "@idstudent",
+                            SqlDbType = SqlDbType.Int,
+                            Value = idStudant
+                        };
+                        sqlCmd.Parameters.Add(parIdStudant);
+
+                        // Objeto que vai guardar informações da tabela
+                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
+                        {
+                            // Preenchendo o DataTable
+                            sqlDat.Fill(dtResult);
+                        }
+
+                        // Adicionando a nova coluna para o nome da disciplina
+                        dtResult.Columns.Add("disciplineName", typeof(string));
+
+                        // Adicionando a nova coluna para o status
+                        dtResult.Columns.Add("status", typeof(string));
+
+                        //mudando o valor da coluna onte estão os ids das materias
+                        foreach (DataRow row in dtResult.Rows)
+                        {
+                            foreach (Tuple<int, string, decimal> discipline in disciplines)
+                            {
+                                if ( (int)row["idmateria"] == discipline.Item1 )
+                                    row["disciplineName"] = discipline.Item2;
+                                
+
+                                if( (decimal)row["media"] >= discipline.Item3 )
+                                    row["status"] = "Aprovado";
+
+                                else
+                                    row["status"] = "Reprovado";
+                            }
+                            //Debug.WriteLine("valor: "+ row["disciplineName"]);
+                        }
+
+                        // Reorganizando as colunas para que 'disciplineName' fique depois de 'idmateria'
+                        dtResult.Columns["disciplineName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dtResult = null;
+                    Debug.WriteLine("Exception: " + ex);
+                }
+            }
+
+
+            return dtResult;
+        }
+    
+        public static string EditScores(int id, decimal sfiq, decimal ssq, decimal stq, decimal sfoq, decimal average)
+        {
+            string resp = "";
+
+            //Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
+            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    //abrindo conexão
+                    sqlCon.Open();
+
+                    //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
+                    using (SqlCommand sqlCmd = new SqlCommand("spedit_scores", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Parâmetro para o ID
+                        SqlParameter parId = new SqlParameter
+                        {
+                            ParameterName = "@idscores",
+                            SqlDbType = SqlDbType.Int,
+                            Value = id
+                        };
+                        sqlCmd.Parameters.Add(parId);
+
+                        // Parâmetro para a nota do primeiro trimestre
+                        SqlParameter parSfiq = new SqlParameter
+                        {
+                            ParameterName = "@scorefit",
+                            SqlDbType = SqlDbType.Decimal,
+                            Value = sfiq
+                        };
+                        sqlCmd.Parameters.Add(parSfiq);
+
+                        // Parâmetro para a nota do segundo trimestre
+                        SqlParameter parSsq = new SqlParameter
+                        {
+                            ParameterName = "@scorest",
+                            SqlDbType = SqlDbType.Decimal,
+                            Value = ssq
+                        };
+                        sqlCmd.Parameters.Add(parSsq);
+
+                        // Parâmetro para a nota do terceiro trimestre
+                        SqlParameter parStq = new SqlParameter
+                        {
+                            ParameterName = "@scorett",
+                            SqlDbType = SqlDbType.Decimal,
+                            Value = stq
+                        };
+                        sqlCmd.Parameters.Add(parStq);
+
+                        // Parâmetro para a nota do quarto trimestre
+                        SqlParameter parSfoq = new SqlParameter
+                        {
+                            ParameterName = "@scorefot",
+                            SqlDbType = SqlDbType.Decimal,
+                            Value = sfoq
+                        };
+                        sqlCmd.Parameters.Add(parSfoq);
+
+                        // Parâmetro para a média minima para aprovação
+                        SqlParameter parAverage = new SqlParameter
+                        {
+                            ParameterName = "@average",
+                            SqlDbType = SqlDbType.Decimal,
+                            Value = average
+                        };
+                        sqlCmd.Parameters.Add(parAverage);
+
+                        // Executa o comando e verifica se a edição foi bem-sucedida
+                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
+                        if (linhasAfetadas == 1)
+                        {
+                            int id_Aluno = Convert.ToInt32(parId.Value);
+                            resp = $"Registro editado com sucesso.";
+                        }
+                        else
+                        {
+                            resp = "Registro não editado";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    resp = $"Erro: {ex.Message}";
+                    Debug.WriteLine("ERRO: " + resp);
+                }
+            }
+
+            return resp;
         }
     }
 
