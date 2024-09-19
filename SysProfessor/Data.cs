@@ -32,7 +32,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand sqlCmd = new SqlCommand("spshow_discipline", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_show_discipline", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
@@ -71,7 +71,7 @@ namespace SysProfessor
                     SqlCon.Open();
 
                     // Configurando o comando SQL
-                    using (SqlCommand sqlCmd = new SqlCommand("spsearch_discipline_name", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_search_discipline_name", SqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -176,7 +176,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spedit_discipline", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_edit_discipline", sqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -245,7 +245,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spdelete_discipline", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_delete_discipline", sqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -438,7 +438,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spedit_student", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_edit_student", sqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -507,7 +507,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spdel_studant", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_del_studant", sqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -666,7 +666,7 @@ namespace SysProfessor
             try
             {
                 //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                using (SqlCommand sqlCmd = new SqlCommand("spedit_configurations", sqlCon))
+                using (SqlCommand sqlCmd = new SqlCommand("sp_edit_configurations", sqlCon))
                 {
                     sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -729,7 +729,7 @@ namespace SysProfessor
             {
 
                 // Cria um comando SQL que vai chamar uma stored procedure
-                using (SqlCommand sqlCmd = new SqlCommand("spinsert_configurations", sqlCon))
+                using (SqlCommand sqlCmd = new SqlCommand("sp_insert_configurations", sqlCon))
                 {
                     sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -843,7 +843,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand sqlCmd = new SqlCommand("spshow_discipline", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_show_discipline", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
@@ -1056,7 +1056,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand sqlCmd = new SqlCommand("spsearch_discipline_name", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_search_discipline_name", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
@@ -1310,7 +1310,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spedit_scores", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_edit_scores", sqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 

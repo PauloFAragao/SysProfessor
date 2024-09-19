@@ -5,12 +5,14 @@ USE dbprofessor
 --procedimento show, para mostrar os alunos
 CREATE PROC sp_show_students
 AS
-SELECT TOP 75 * FROM alunos
-ORDER BY numero ASC
+BEGIN
+	SELECT TOP 75 * FROM alunos
+	ORDER BY numero ASC
+END;
 GO
 
 -- Procedimento para buscar aluno por nome
-CREATE PROC spsearch_student_name
+CREATE PROC sp_search_student_name
     @name VARCHAR(100)
 AS
 BEGIN
@@ -18,7 +20,7 @@ BEGIN
     FROM alunos 
     WHERE nome LIKE @name + '%' 
     ORDER BY numero ASC;
-END
+END;
 GO
 
 --procedimento inserir aluno
@@ -39,19 +41,21 @@ BEGIN
     INSERT INTO notas (idaluno, idmateria, notapt, notast, notatt, notaqt, media)
     SELECT @idstudent, idmateria, 0.00, 0.00, 0.00, 0.00, 0.00
     FROM materias;
-END
+END;
 GO
 
 --procedimento editar aluno
-CREATE PROC spedit_student
-@idstudent INT,
-@name VARCHAR(100),
-@num INT
+CREATE PROC sp_edit_student
+	@idstudent INT,
+	@name VARCHAR(100),
+	@num INT
 AS
-UPDATE alunos
-SET nome = @name, 
-	numero = @num
-WHERE idaluno = @idstudent
+BEGIN
+	UPDATE alunos
+	SET nome = @name, 
+		numero = @num
+	WHERE idaluno = @idstudent
+END;
 GO
 
 --procedimento deletar aluno
@@ -61,7 +65,7 @@ AS
 BEGIN
     DELETE FROM alunos
     WHERE idaluno = @idstudent;
-END
+END;
 GO
 
 --procedimento para verificar a quantidade de alunos registrados
@@ -79,20 +83,23 @@ GO
 
 
 --procedimento show, para mostrar as materias
-CREATE PROC spshow_discipline
+CREATE PROC sp_show_discipline
 AS
-SELECT TOP 75 * FROM materias
-ORDER BY idmateria DESC
+BEGIN
+	SELECT TOP 75 * FROM materias
+	ORDER BY idmateria DESC
+END;
 GO
 
 --procedimento buscar materia por nome
-CREATE PROC spsearch_discipline_name
-@name VARCHAR(100)
+CREATE PROC sp_search_discipline_name
+	@name VARCHAR(100)
 AS 
-SELECT * FROM materias WHERE nome LIKE @name+ '%'
+BEGIN
+	SELECT * FROM materias WHERE nome LIKE @name+ '%'
+END;
 GO
 
---procedimento inserir materia
 --procedimento inserir materia
 CREATE PROCEDURE sp_insert_discipline_and_scores
     @name NVARCHAR(100),
@@ -112,27 +119,31 @@ BEGIN
     SELECT idaluno, @idmateria, 0.00, 0.00, 0.00, 0.00, 0.00
     FROM alunos;
 
-END
+END;
 GO
 
 --procedimento editar materia
-CREATE PROC spedit_discipline
-@iddiscipline INT,
-@name VARCHAR(100),
-@average DECIMAL(5, 2)
+CREATE PROC sp_edit_discipline
+	@iddiscipline INT,
+	@name VARCHAR(100),
+	@average DECIMAL(5, 2)
 AS
-UPDATE materias
-SET nome = @name, 
-	media = @average
-WHERE idmateria = @iddiscipline
+BEGIN
+	UPDATE materias
+	SET nome = @name, 
+		media = @average
+	WHERE idmateria = @iddiscipline
+END;
 GO
 
 --procedimento deletar materia
-CREATE PROC spdelete_discipline
-@iddiscipline INT
+CREATE PROC sp_delete_discipline
+	@iddiscipline INT
 AS
-DELETE FROM materias 
-WHERE idmateria = @iddiscipline
+BEGIN
+	DELETE FROM materias 
+	WHERE idmateria = @iddiscipline
+END;
 GO
 
 --procedimento para verificar a quantidade de materias registrados
@@ -145,24 +156,30 @@ BEGIN
 END;
 GO
 
+
 ----------------------- Notas -----------------------
+
 
 --procedimento buscar notas por idaluno
 CREATE PROC sp_search_scores_from_studant
 	@idstudent INT
 AS 
-SELECT * FROM notas 
-WHERE idaluno = @idstudent
-ORDER BY idnotas ASC
+BEGIN
+	SELECT * FROM notas 
+	WHERE idaluno = @idstudent
+	ORDER BY idnotas ASC
+END;
 GO
 
 --procedimento buscar notas por materias
 CREATE PROC sp_search_scores_from_discipline
 	@iddiscipline INT
 AS
-SELECT * FROM notas 
-WHERE idmateria = @iddiscipline
-ORDER BY idnotas ASC
+BEGIN
+	SELECT * FROM notas 
+	WHERE idmateria = @iddiscipline
+	ORDER BY idnotas ASC
+END;
 GO
 
 --procedimento para buscar materias por nome e id do aluno
@@ -178,7 +195,7 @@ BEGIN
     JOIN materias m ON n.idmateria = m.idmateria
     WHERE n.idaluno = @idstudent
       AND m.nome LIKE @name + '%' ;
-END
+END;
 GO
 
 --procedimento para buscar alunos por nome e id da materia
@@ -194,10 +211,32 @@ BEGIN
     JOIN alunos m ON n.idaluno = m.idaluno
     WHERE n.idmateria = @iddiscipline
       AND m.nome LIKE @name + '%' ;
-END
+END;
 GO
 
+--procedimento editar notas
+CREATE PROC sp_edit_scores
+	@idscores INT,
+	@scorefit DECIMAL(5, 2),
+	@scorest DECIMAL(5, 2),
+	@scorett DECIMAL(5, 2),
+	@scorefot DECIMAL(5, 2),
+	@average DECIMAL(5, 2)
+AS
+BEGIN
+	UPDATE notas
+	SET notapt = @scorefit,
+		notast = @scorest,
+		notatt = @scorett,
+		notaqt = @scorefot,
+		media = @average
+	WHERE idnotas = @idscores
+END;
+GO
+
+
 ----------------------- Configurações -----------------------
+
 
 --procedimento para ler as configurações
 CREATE PROCEDURE sp_read_configurations
@@ -219,24 +258,28 @@ END;
 GO
 
 --prodecimento para editar as configurações
-CREATE PROC spedit_configurations
-@id_conf INT,
-@professor_name VARCHAR(100),
-@scholl_name VARCHAR(100)
-as
-UPDATE configuracao
-SET nome_professor = @professor_name,
-	nome_escola = @scholl_name
-WHERE id = @id_conf
+CREATE PROC sp_edit_configurations
+	@id_conf INT,
+	@professor_name VARCHAR(100),
+	@scholl_name VARCHAR(100)
+AS
+BEGIN
+	UPDATE configuracao
+	SET nome_professor = @professor_name,
+		nome_escola = @scholl_name
+	WHERE id = @id_conf
+END;
 GO
 
 --procedimento inserir configuração
-CREATE PROC spinsert_configurations
-@professor_name VARCHAR(100),
-@scholl_name VARCHAR(100)
+CREATE PROC sp_insert_configurations
+	@professor_name VARCHAR(100),
+	@scholl_name VARCHAR(100)
 AS
-INSERT INTO configuracao
-VALUES (@professor_name, @scholl_name)
+BEGIN
+	INSERT INTO configuracao
+	VALUES (@professor_name, @scholl_name)
+END;
 GO
 
 --procedimento para verificar se existe alguma configuração e pegar o id
