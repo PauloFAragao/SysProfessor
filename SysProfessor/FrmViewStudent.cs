@@ -100,7 +100,7 @@ namespace SysProfessor
         {
             string searchName = this.TxtSearch.Text;
 
-            DataTable data = Data.GetStudentDiscliplinesFilterdiscipline(id, searchName);
+            DataTable data = Data.GetStudentDiscliplinesFilterDiscipline(id, searchName);
 
             //if (data != null)
                 this.DgvData.DataSource = data;

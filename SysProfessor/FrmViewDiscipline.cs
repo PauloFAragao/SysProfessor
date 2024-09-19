@@ -143,9 +143,23 @@ namespace SysProfessor
             }
         }
 
+        private void Search()
+        {
+            string searchName = this.TxtSearch.Text;
+
+            DataTable data = Data.GetDisciplineStudentsFilderStudent(id, minimumAverage, searchName);
+
+            this.DgvData.DataSource = data;
+        }
+
         private void BtmEdit_Click(object sender, EventArgs e)
         {
             EditScores();
+        }
+
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            Search();
         }
 
         private void BtnBack_Click(object sender, EventArgs e)

@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Sistemas\\SysProfessor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmstudents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmstudents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmdisciplines.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmdisciplines.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmstudents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmstudents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmviewstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmviewstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|C:\\Sistemas\\SysProfessor\\sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmviewdiscipline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmviewdiscipline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\frmviewdiscipline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmviewdiscipline.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|C:\\Sistemas\\SysProfessor\\sysprofessor\\frmviewstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\frmviewstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,43 +26,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FrmStudents.cs [Design]",
-              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmStudents.cs",
-              "RelativeDocumentMoniker": "SysProfessor\\FrmStudents.cs",
-              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmStudents.cs [Design]",
-              "RelativeToolTip": "SysProfessor\\FrmStudents.cs [Design]",
+              "DocumentIndex": 2,
+              "Title": "FrmViewDiscipline.cs [Design]",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmViewDiscipline.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\FrmViewDiscipline.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmViewDiscipline.cs [Design]",
+              "RelativeToolTip": "SysProfessor\\FrmViewDiscipline.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T19:40:04.916Z",
+              "WhenOpened": "2024-09-19T20:00:33.035Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "FrmDisciplines.cs [Design]",
-              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmDisciplines.cs",
-              "RelativeDocumentMoniker": "SysProfessor\\FrmDisciplines.cs",
-              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmDisciplines.cs [Design]",
-              "RelativeToolTip": "SysProfessor\\FrmDisciplines.cs [Design]",
+              "Title": "FrmViewDiscipline.cs",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmViewDiscipline.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\FrmViewDiscipline.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmViewDiscipline.cs",
+              "RelativeToolTip": "SysProfessor\\FrmViewDiscipline.cs",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAAwJYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T19:36:10.526Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FrmStudents.cs",
-              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmStudents.cs",
-              "RelativeDocumentMoniker": "SysProfessor\\FrmStudents.cs",
-              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmStudents.cs",
-              "RelativeToolTip": "SysProfessor\\FrmStudents.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-19T18:01:14.088Z",
+              "WhenOpened": "2024-09-19T20:00:20.521Z",
               "EditorCaption": ""
             },
             {
@@ -77,20 +61,20 @@
               "RelativeDocumentMoniker": "SysProfessor\\FrmViewStudent.cs",
               "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\FrmViewStudent.cs",
               "RelativeToolTip": "SysProfessor\\FrmViewStudent.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABUAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAFYAAAAAAAAAAIAwwGIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-19T17:26:27.676Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "Data.cs",
               "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
               "RelativeDocumentMoniker": "SysProfessor\\Data.cs",
               "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
               "RelativeToolTip": "SysProfessor\\Data.cs",
-              "ViewState": "AgIAAFIEAAAAAAAAAAAQwDwEAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAANsEAAAAAAAAAADwv/AEAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-19T17:24:21.846Z",
               "EditorCaption": ""

@@ -935,7 +935,7 @@ namespace SysProfessor
         {
             DataTable dtResult = new DataTable("students");
 
-            //lista de tuplas para guardar as materias
+            //lista de tuplas para guardar as alunos
             List<Tuple<int, string, int>> students = new List<Tuple<int, string, int>>();
 
             // Objeto da conexão com o banco de dados
@@ -1040,7 +1040,7 @@ namespace SysProfessor
             return dtResult;
         }
 
-        public static DataTable GetStudentDiscliplinesFilterdiscipline(int idStudant, string name)
+        public static DataTable GetStudentDiscliplinesFilterDiscipline(int idStudant, string name)
         {
             DataTable dtResult = new DataTable("disciplines");
 
@@ -1164,7 +1164,138 @@ namespace SysProfessor
             return dtResult;
         }
 
+        public static DataTable GetDisciplineStudentsFilderStudent(int idDiscipline, decimal average, string name)
+        {
+            DataTable dtResult = new DataTable("students");
 
+            //lista de tuplas para guardar as alunos
+            List<Tuple<int, string, int>> students = new List<Tuple<int, string, int>>();
+
+            // Objeto da conexão com o banco de dados
+            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    // Abrindo a conexão ao banco de dados
+                    sqlCon.Open();
+
+                    // Comando SQL - que está no banco de dados
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_search_student_name", sqlCon))
+                    {
+                        //Define o tipo de comando como StoredProcedure, 
+                        //o que indica que estamos chamando um procedimento armazenado no banco de dados.
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Adicionando o parâmetro ao comando SQL
+                        SqlParameter ParTextSearch = new SqlParameter
+                        {
+                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
+                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
+                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
+                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
+                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
+                        };
+                        sqlCmd.Parameters.Add(ParTextSearch);
+
+                        using (SqlDataReader reader = sqlCmd.ExecuteReader())
+                        {
+                            // Ler e manipular os dados
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32(0);
+                                string studentName = reader.GetString(1);
+                                int number = reader.GetInt32(2);
+
+                                //Debug.WriteLine($"id: {id} nome: {studentName}, numero: {number}");
+
+                                //criando uma tupla
+                                Tuple<int, string, int> student = Tuple.Create(id, studentName, number);
+
+                                //adicinando a tupla a lista de tuplas
+                                students.Add(student);
+                            }
+                        }
+                    }
+
+                    // Configurando o comando SQL
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_search_disciplineid_student", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Parâmetro de saída para o ID da nome
+                        SqlParameter parIdDiscipline = new SqlParameter
+                        {
+                            ParameterName = "@iddiscipline",
+                            SqlDbType = SqlDbType.Int,
+                            Value = idDiscipline
+                        };
+                        sqlCmd.Parameters.Add(parIdDiscipline);
+
+                        // Adicionando o parâmetro ao comando SQL
+                        SqlParameter ParTextSearch = new SqlParameter
+                        {
+                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
+                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
+                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
+                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
+                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
+                        };
+                        sqlCmd.Parameters.Add(ParTextSearch);
+
+                        // Criando o DataAdapter
+                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
+                        {
+                            // Preenchendo o DataTable
+                            sqlDat.Fill(dtResult);
+                        }
+
+                        // Adicionando a nova coluna para o nome da disciplina
+                        dtResult.Columns.Add("studentName", typeof(string));
+
+                        // Reorganizando as colunas para que 'disciplineName' fique depois de 'idmateria'
+                        dtResult.Columns["studentName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
+
+                        //adicionado uma nova coluna para o numero da chamada
+                        dtResult.Columns.Add("numero", typeof(int));
+
+                        //Reorganizando as colunas para que 'numero' fique depois de 'studentName'
+                        dtResult.Columns["numero"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 2);
+
+                        // Adicionando a nova coluna para o status
+                        dtResult.Columns.Add("status", typeof(string));
+
+                        //mudando o valor da coluna onte estão os ids das materias
+                        foreach (DataRow row in dtResult.Rows)
+                        {
+                            foreach (Tuple<int, string, int> student in students)
+                            {
+                                if ((int)row["idaluno"] == student.Item1)
+                                {
+                                    row["studentName"] = student.Item2;
+                                    row["numero"] = student.Item3;
+                                }
+
+                                if ((decimal)row["media"] >= average)
+                                    row["status"] = "Aprovado";
+
+                                else
+                                    row["status"] = "Reprovado";
+                            }
+                            //Debug.WriteLine("valor: "+ row["studentName"]);
+                        }
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    dtResult = null;
+                    Debug.WriteLine("Exception: " + ex);
+                }
+            }
+
+            return dtResult;
+        }
 
         public static string EditScores(int id, decimal sfiq, decimal ssq, decimal stq, decimal sfoq, decimal average)
         {

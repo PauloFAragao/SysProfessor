@@ -165,6 +165,38 @@ WHERE idmateria = @iddiscipline
 ORDER BY idnotas ASC
 GO
 
+--procedimento para buscar materias por nome e id do aluno
+CREATE PROC sp_search_studentid_discipline
+    @idstudent INT,
+    @name VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT n.* 
+    FROM notas n
+    JOIN materias m ON n.idmateria = m.idmateria
+    WHERE n.idaluno = @idstudent
+      AND m.nome LIKE @name + '%' ;
+END
+GO
+
+--procedimento para buscar alunos por nome e id da materia
+CREATE PROC sp_search_disciplineid_student
+    @iddiscipline INT,
+    @name VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT n.* 
+    FROM notas n
+    JOIN alunos m ON n.idaluno = m.idaluno
+    WHERE n.idmateria = @iddiscipline
+      AND m.nome LIKE @name + '%' ;
+END
+GO
+
 ----------------------- Configurações -----------------------
 
 --procedimento para ler as configurações
