@@ -3,7 +3,7 @@ USE dbprofessor
 ----------------------- Alunos -----------------------
 
 --procedimento show, para mostrar os alunos
-CREATE PROC spshow_students
+CREATE PROC sp_show_students
 AS
 SELECT TOP 75 * FROM alunos
 ORDER BY numero ASC
@@ -40,6 +40,7 @@ BEGIN
     SELECT @idstudent, idmateria, 0.00, 0.00, 0.00, 0.00, 0.00
     FROM materias;
 END
+GO
 
 --procedimento editar aluno
 CREATE PROC spedit_student
@@ -112,6 +113,7 @@ BEGIN
     FROM alunos;
 
 END
+GO
 
 --procedimento editar materia
 CREATE PROC spedit_discipline
@@ -141,6 +143,26 @@ BEGIN
     SET @amount = 0;
     SELECT @amount = COUNT(*) FROM materias;
 END;
+GO
+
+----------------------- Notas -----------------------
+
+--procedimento buscar notas por idaluno
+CREATE PROC sp_search_scores_from_studant
+	@idstudent INT
+AS 
+SELECT * FROM notas 
+WHERE idaluno = @idstudent
+ORDER BY idnotas ASC
+GO
+
+--procedimento buscar notas por materias
+CREATE PROC sp_search_scores_from_discipline
+	@iddiscipline INT
+AS
+SELECT * FROM notas 
+WHERE idmateria = @iddiscipline
+ORDER BY idnotas ASC
 GO
 
 ----------------------- Configurações -----------------------

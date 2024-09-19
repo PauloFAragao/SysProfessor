@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -29,7 +30,7 @@ namespace SysProfessor
         private void LoadData()
         {
             this.LblName.Text = this.name;
-            this.DgvData.DataSource = Data.GetStudentDiscliplines(id);
+            this.DgvData.DataSource = Data.GetStudentDisciplines(id);
         }
 
         private void HideColumns()
@@ -71,14 +72,13 @@ namespace SysProfessor
             this.DgvData.Columns[9].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
-        private void BbnBack_Click(object sender, EventArgs e)
-        {
-            FormLoader.OpenChildForm(new FrmStudents());
-        }
-
         private void EditScores()
         {
-            FrmEditScores frmEditScores = new FrmEditScores(
+            if (DgvData.Rows.Count > 0)
+            {
+                //Debug.WriteLine("Tem dados");
+
+                FrmEditScores frmEditScores = new FrmEditScores(
                 Convert.ToInt32(this.DgvData.CurrentRow.Cells["idnotas"].Value),
                 name,
                 Convert.ToString(this.DgvData.CurrentRow.Cells["disciplineName"].Value),
@@ -88,12 +88,37 @@ namespace SysProfessor
                 Convert.ToDecimal(this.DgvData.CurrentRow.Cells["notaqt"].Value),
                 Convert.ToDecimal(this.DgvData.CurrentRow.Cells["media"].Value), CallLoadData);
 
-            frmEditScores.ShowDialog();
+                frmEditScores.ShowDialog();
+            }
+            else
+            {
+                Debug.WriteLine("não tem dados");
+            }
+        }
+
+        private void Search()
+        {
+            string searchName = this.TxtSearch.Text;
+
+            DataTable data = Data.GetStudentDiscliplinesFilterdiscipline(id, searchName);
+
+            //if (data != null)
+                this.DgvData.DataSource = data;
+        }
+
+        private void BbnBack_Click(object sender, EventArgs e)
+        {
+            FormLoader.OpenChildForm(new FrmStudents());
         }
 
         private void BtmEdit_Click(object sender, EventArgs e)
         {
             EditScores();
+        }
+
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            Search();
         }
     }
 }

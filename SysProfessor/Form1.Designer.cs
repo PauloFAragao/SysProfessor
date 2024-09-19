@@ -133,6 +133,7 @@
             this.ClientSize = new System.Drawing.Size(956, 550);
             this.Controls.Add(this.PanelBody);
             this.Controls.Add(this.PanelMenu);
+            this.MinimumSize = new System.Drawing.Size(972, 589);
             this.Name = "Form1";
             this.Text = "Systema Professor";
             this.PanelMenu.ResumeLayout(false);

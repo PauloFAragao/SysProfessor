@@ -36,8 +36,10 @@
             this.BtnEdit = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.DgvStudants = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvStudants)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -117,25 +119,35 @@
             this.DgvStudants.AllowUserToDeleteRows = false;
             this.DgvStudants.AllowUserToOrderColumns = true;
             this.DgvStudants.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvStudants.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.DgvStudants.Location = new System.Drawing.Point(0, 31);
+            this.DgvStudants.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DgvStudants.Location = new System.Drawing.Point(0, 0);
             this.DgvStudants.Name = "DgvStudants";
             this.DgvStudants.ReadOnly = true;
-            this.DgvStudants.Size = new System.Drawing.Size(740, 480);
+            this.DgvStudants.Size = new System.Drawing.Size(740, 456);
             this.DgvStudants.TabIndex = 8;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.DgvStudants);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 55);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(740, 456);
+            this.panel2.TabIndex = 10;
             // 
             // FrmStudents
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(740, 511);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.DgvStudants);
             this.Name = "FrmStudents";
             this.Text = "FrmStudents";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvStudants)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -150,5 +162,6 @@
         private System.Windows.Forms.Button BtnEdit;
         private System.Windows.Forms.Button BtnDelete;
         private System.Windows.Forms.DataGridView DgvStudants;
+        private System.Windows.Forms.Panel panel2;
     }
 }

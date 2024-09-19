@@ -36,8 +36,10 @@
             this.BtnEdit = new System.Windows.Forms.Button();
             this.BtnDelete = new System.Windows.Forms.Button();
             this.DgvDisciplines = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvDisciplines)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -117,25 +119,35 @@
             this.DgvDisciplines.AllowUserToDeleteRows = false;
             this.DgvDisciplines.AllowUserToOrderColumns = true;
             this.DgvDisciplines.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DgvDisciplines.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.DgvDisciplines.Location = new System.Drawing.Point(0, 31);
+            this.DgvDisciplines.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DgvDisciplines.Location = new System.Drawing.Point(0, 0);
             this.DgvDisciplines.Name = "DgvDisciplines";
             this.DgvDisciplines.ReadOnly = true;
-            this.DgvDisciplines.Size = new System.Drawing.Size(740, 480);
+            this.DgvDisciplines.Size = new System.Drawing.Size(740, 443);
             this.DgvDisciplines.TabIndex = 6;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.DgvDisciplines);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 68);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(740, 443);
+            this.panel2.TabIndex = 8;
             // 
             // FrmDisciplines
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(740, 511);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.DgvDisciplines);
             this.Name = "FrmDisciplines";
             this.Text = "FrmDisciplines";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvDisciplines)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -150,5 +162,6 @@
         private System.Windows.Forms.Button BtnEdit;
         private System.Windows.Forms.Button BtnDelete;
         private System.Windows.Forms.DataGridView DgvDisciplines;
+        private System.Windows.Forms.Panel panel2;
     }
 }

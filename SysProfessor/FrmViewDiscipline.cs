@@ -37,12 +37,20 @@ namespace SysProfessor
 
             this.LblName.Text = disciplineName;
             this.LblAverage.Text = Convert.ToString(minimumAverage);
-            this.LblClassAverage.Text = "NULL";
-
-            CalculateClassAverage(data);
-            this.LblClassAverage.Text = Convert.ToString(classAverage);
 
             this.DgvData.DataSource = data;
+
+            //para evitar dar erro no caso de não ter nenhum aluno adiconado
+            if (DgvData.Rows.Count > 0)
+            {
+                CalculateClassAverage(data);
+                this.LblClassAverage.Text = classAverage.ToString("F2");//Convert.ToString(classAverage);
+            }
+            else
+                this.LblClassAverage.Text = "0";
+
+            //reorganizando os números
+            DgvData.Sort(DgvData.Columns["numero"], System.ComponentModel.ListSortDirection.Ascending);
         }
 
         public void CallLoadData()
@@ -111,20 +119,33 @@ namespace SysProfessor
             //Debug.WriteLine("média da turma: " + classAverage);
         }
 
-        private void BtmEdit_Click(object sender, EventArgs e)
+        private void EditScores()
         {
-            FrmEditScores frmEditScores = new FrmEditScores(
+            if (DgvData.Rows.Count > 0)
+            {
+                Debug.WriteLine("Tem dados");
+
+                FrmEditScores frmEditScores = new FrmEditScores(
                 Convert.ToInt32(this.DgvData.CurrentRow.Cells["idnotas"].Value),
                 Convert.ToString(this.DgvData.CurrentRow.Cells["studentName"].Value),
                 disciplineName,
-                //Convert.ToString(this.DgvData.CurrentRow.Cells["disciplineName"].Value),
                 Convert.ToDecimal(this.DgvData.CurrentRow.Cells["notapt"].Value),
                 Convert.ToDecimal(this.DgvData.CurrentRow.Cells["notast"].Value),
                 Convert.ToDecimal(this.DgvData.CurrentRow.Cells["notatt"].Value),
                 Convert.ToDecimal(this.DgvData.CurrentRow.Cells["notaqt"].Value),
                 Convert.ToDecimal(this.DgvData.CurrentRow.Cells["media"].Value), CallLoadData);
 
-            frmEditScores.ShowDialog();
+                frmEditScores.ShowDialog();
+            }
+            else
+            {
+                Debug.WriteLine("não tem dados");
+            }
+        }
+
+        private void BtmEdit_Click(object sender, EventArgs e)
+        {
+            EditScores();
         }
 
         private void BtnBack_Click(object sender, EventArgs e)

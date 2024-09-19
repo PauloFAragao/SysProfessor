@@ -36,39 +36,78 @@ namespace SysProfessor
             this.DgvStudants.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
 
-        private void Del()
-        {
-            string studantName;
-
-            int id = Convert.ToInt32(this.DgvStudants.CurrentRow.Cells["idaluno"].Value);
-
-            studantName = Convert.ToString(this.DgvStudants.CurrentRow.Cells["nome"].Value) ;
-
-            if (MessageBox.Show(
-                "Realmente Deseja Apagar o(a) Aluno(a): "+ studantName + " ?" ,
-                "Apagar Aluno?",
-                MessageBoxButtons.OKCancel,
-                MessageBoxIcon.Question) == DialogResult.OK)
-            {
-                string resp;
-
-                resp = Data.DeleteStudant(id);
-
-                Debug.WriteLine(resp);
-            }
-        }
-        
         private void Search()
         {
             this.DgvStudants.DataSource = Data.SearchStudent(this.TxtSearch.Text);
         }
 
-        private void BtnView_Click(object sender, EventArgs e)
+        private void View()
         {
-            FormLoader.OpenChildForm(new FrmViewStudent(
+            if (DgvStudants.Rows.Count > 0)
+            {
+                //Debug.WriteLine("Tem dados");
+
+                FormLoader.OpenChildForm(new FrmViewStudent(
                 Convert.ToInt32(this.DgvStudants.CurrentRow.Cells["idaluno"].Value),
                 Convert.ToString(this.DgvStudants.CurrentRow.Cells["nome"].Value)
                 ));
+            }
+            else
+            {
+                Debug.WriteLine("não tem dados");
+            }
+        }
+
+        private void Del()
+        {
+            if (DgvStudants.Rows.Count > 0)
+            {
+                //Debug.WriteLine("Tem dados");
+                string studantName;
+
+                int id = Convert.ToInt32(this.DgvStudants.CurrentRow.Cells["idaluno"].Value);
+
+                studantName = Convert.ToString(this.DgvStudants.CurrentRow.Cells["nome"].Value);
+
+                if (MessageBox.Show(
+                    "Realmente Deseja Apagar o(a) Aluno(a): " + studantName + " ?",
+                    "Apagar Aluno?",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    string resp;
+
+                    resp = Data.DeleteStudant(id);
+
+                    Debug.WriteLine(resp);
+                }
+            }
+            else
+            {
+                Debug.WriteLine("não tem dados");
+            }
+        }
+
+        private void Add()
+        {
+            if (DgvStudants.Rows.Count > 0)
+            {
+                //Debug.WriteLine("Tem dados");
+
+                FormLoader.OpenChildForm(new FrmAddEditStudent(true,
+                Convert.ToInt32(this.DgvStudants.CurrentRow.Cells["idaluno"].Value),
+                Convert.ToString(this.DgvStudants.CurrentRow.Cells["nome"].Value),
+                Convert.ToString(this.DgvStudants.CurrentRow.Cells["numero"].Value)));
+            }
+            else
+            {
+                Debug.WriteLine("não tem dados");
+            }
+        }
+
+        private void BtnView_Click(object sender, EventArgs e)
+        {
+            View();
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
@@ -78,10 +117,7 @@ namespace SysProfessor
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            FormLoader.OpenChildForm(new FrmAddEditStudent(true,
-                Convert.ToInt32(this.DgvStudants.CurrentRow.Cells["idaluno"].Value),
-                Convert.ToString(this.DgvStudants.CurrentRow.Cells["nome"].Value),
-                Convert.ToString(this.DgvStudants.CurrentRow.Cells["numero"].Value)));
+            Add();
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
