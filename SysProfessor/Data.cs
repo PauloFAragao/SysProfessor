@@ -15,29 +15,31 @@ namespace SysProfessor
 {
     internal class Data
     {
-        //método mostrar alunos
-        public static DataTable ShowStudants()
+        //------------------------------------- máterias -------------------------------------
+
+        //método mostrar materias
+        public static DataTable ShowDisciplines()
         {
             // Objeto do tipo DataTable
-            DataTable DtResultado = new DataTable("studants");
+            DataTable DtResultado = new DataTable("discliplines");
 
             // Objeto da conexão com o banco de dados
-            using (SqlConnection SqlCon = new SqlConnection(Connection.Cn))
+            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
             {
                 try
                 {
                     // Abrindo a conexão ao banco de dados
-                    SqlCon.Open();
+                    sqlCon.Open();
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand SqlCmd = new SqlCommand("sp_show_students", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("spshow_discipline", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Objeto que vai guardar informações da tabela
-                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(SqlCmd))
+                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
                         {
                             // Preenchendo o DataTable
                             sqlDat.Fill(DtResultado);
@@ -54,11 +56,238 @@ namespace SysProfessor
             return DtResultado;
         }
 
-        //método mostrar alunos
-        public static DataTable ShowDisciplines()
+        //método pesquisar uma materia
+        public static DataTable SearchDiscipline(string name)
         {
             // Objeto do tipo DataTable
-            DataTable DtResultado = new DataTable("discliplines");
+            DataTable DtResultado = new DataTable("discipline");
+
+            // Objeto da conexão com o banco de dados
+            using (SqlConnection SqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    // Abrindo a conexão ao banco de dados
+                    SqlCon.Open();
+
+                    // Configurando o comando SQL
+                    using (SqlCommand sqlCmd = new SqlCommand("spsearch_discipline_name", SqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Adicionando o parâmetro ao comando SQL
+                        SqlParameter ParTextSearch = new SqlParameter
+                        {
+                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
+                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
+                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
+                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
+                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
+                        };
+                        sqlCmd.Parameters.Add(ParTextSearch);
+
+                        // Criando o DataAdapter
+                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
+                        {
+                            // Preenchendo o DataTable
+                            sqlDat.Fill(DtResultado);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log ou tratamento da exceção pode ser adicionado aqui
+                    // Exemplo: Console.WriteLine(ex.Message);
+                    DtResultado = null;
+                }
+            }
+            return DtResultado;
+        }
+
+        //método inserir materia
+        public static string InsertDiscipline(string name, decimal average)
+        {
+            string resp = "";
+
+            // Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
+            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    // Abrindo conexão
+                    sqlCon.Open();
+
+                    // Cria um comando SQL que vai chamar uma stored procedure
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_insert_discipline_and_scores", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Parâmetro para o nome do aluno
+                        SqlParameter parName = new SqlParameter
+                        {
+                            ParameterName = "@name",
+                            SqlDbType = SqlDbType.VarChar,
+                            Size = 100,
+                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
+                        };
+                        sqlCmd.Parameters.Add(parName);
+
+                        // Parâmetro para a média minima para aprovação
+                        SqlParameter parAverage = new SqlParameter
+                        {
+                            ParameterName = "@average",
+                            SqlDbType = SqlDbType.Decimal,
+                            Value = average
+                        };
+                        sqlCmd.Parameters.Add(parAverage);
+
+                        // Executa o comando e verifica se a inserção foi bem-sucedida
+                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
+                        if (linhasAfetadas > 0)
+                        {
+                            resp = "Registro inserido com sucesso.";
+                        }
+                        else
+                        {
+                            resp = "Registro não inserido.";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    resp = $"Erro: {ex.Message}";
+                }
+            }
+
+            return resp;
+        }
+
+        //método editar materia
+        public static string EditDiscipline(int idDiscipline, string name, decimal average)
+        {
+            string resp = "";
+
+            //Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
+            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    //abrindo conexão
+                    sqlCon.Open();
+
+                    //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
+                    using (SqlCommand sqlCmd = new SqlCommand("spedit_discipline", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Parâmetro de saída para o ID da nome
+                        SqlParameter parIdDiscipline = new SqlParameter
+                        {
+                            ParameterName = "@iddiscipline",
+                            SqlDbType = SqlDbType.Int,
+                            Value = idDiscipline
+                        };
+                        sqlCmd.Parameters.Add(parIdDiscipline);
+
+                        // Parâmetro para o nome do aluno
+                        SqlParameter parName = new SqlParameter
+                        {
+                            ParameterName = "@name",
+                            SqlDbType = SqlDbType.VarChar,
+                            Size = 100,
+                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
+                        };
+                        sqlCmd.Parameters.Add(parName);
+
+                        // Parâmetro para a média minima para aprovação
+                        SqlParameter parAverage = new SqlParameter
+                        {
+                            ParameterName = "@average",
+                            SqlDbType = SqlDbType.Decimal,
+                            Value = average
+                        };
+                        sqlCmd.Parameters.Add(parAverage);
+
+                        // Executa o comando e verifica se a edição foi bem-sucedida
+                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
+                        if (linhasAfetadas == 1)
+                        {
+                            int id_Aluno = Convert.ToInt32(parIdDiscipline.Value);
+                            resp = $"Registro editado com sucesso.";
+                        }
+                        else
+                        {
+                            resp = "Registro não editado";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    resp = $"Erro: {ex.Message}";
+                    Debug.WriteLine("ERRO: " + resp);
+                }
+            }
+
+            return resp;
+        }
+
+        //método deletar materia
+        public static string DeleteDiscipline(int idDiscipline)
+        {
+            string resp = "";
+
+            //Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
+            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    //abrindo conexão
+                    sqlCon.Open();
+
+                    //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_del_studant", sqlCon))
+                    {
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        // Parâmetro de saída para o ID da nome
+                        SqlParameter parIdDiscipline = new SqlParameter
+                        {
+                            ParameterName = "@iddiscipline",
+                            SqlDbType = SqlDbType.Int,
+                            Value = idDiscipline
+                        };
+                        sqlCmd.Parameters.Add(parIdDiscipline);
+
+                        // Executa o comando e verifica se foi deletado com sucesso
+                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
+                        if (linhasAfetadas == 1)
+                        {
+                            int id_Aluno = Convert.ToInt32(parIdDiscipline.Value);
+                            resp = $"Registro deletado com sucesso.";
+                        }
+                        else
+                        {
+                            resp = "Registro não deletado";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    resp = $"Erro: {ex.Message}";
+                    Debug.WriteLine("ERRO: " + resp);
+                }
+            }
+
+            return resp;
+        }
+
+        //------------------------------------- alunos -------------------------------------
+        
+        //método mostrar alunos
+        public static DataTable ShowStudants()
+        {
+            // Objeto do tipo DataTable
+            DataTable DtResultado = new DataTable("studants");
 
             // Objeto da conexão com o banco de dados
             using (SqlConnection SqlCon = new SqlConnection(Connection.Cn))
@@ -69,14 +298,14 @@ namespace SysProfessor
                     SqlCon.Open();
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand SqlCmd = new SqlCommand("spshow_discipline", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_show_students", SqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Objeto que vai guardar informações da tabela
-                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(SqlCmd))
+                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
                         {
                             // Preenchendo o DataTable
                             sqlDat.Fill(DtResultado);
@@ -108,9 +337,9 @@ namespace SysProfessor
                     SqlCon.Open();
 
                     // Configurando o comando SQL
-                    using (SqlCommand SqlCmd = new SqlCommand("sp_search_student_name", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_search_student_name", SqlCon))
                     {
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Adicionando o parâmetro ao comando SQL
                         SqlParameter ParTextSearch = new SqlParameter
@@ -121,58 +350,10 @@ namespace SysProfessor
                             Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
                                                                  //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
                         };
-                        SqlCmd.Parameters.Add(ParTextSearch);
+                        sqlCmd.Parameters.Add(ParTextSearch);
 
                         // Criando o DataAdapter
-                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(SqlCmd))
-                        {
-                            // Preenchendo o DataTable
-                            sqlDat.Fill(DtResultado);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Log ou tratamento da exceção pode ser adicionado aqui
-                    // Exemplo: Console.WriteLine(ex.Message);
-                    DtResultado = null;
-                }
-            }
-            return DtResultado;
-        }
-
-        //método pesquisar uma materia
-        public static DataTable SearchDiscipline(string name)
-        {
-            // Objeto do tipo DataTable
-            DataTable DtResultado = new DataTable("discipline");
-
-            // Objeto da conexão com o banco de dados
-            using (SqlConnection SqlCon = new SqlConnection(Connection.Cn))
-            {
-                try
-                {
-                    // Abrindo a conexão ao banco de dados
-                    SqlCon.Open();
-
-                    // Configurando o comando SQL
-                    using (SqlCommand SqlCmd = new SqlCommand("spsearch_discipline_name", SqlCon))
-                    {
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
-
-                        // Adicionando o parâmetro ao comando SQL
-                        SqlParameter ParTextSearch = new SqlParameter
-                        {
-                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
-                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
-                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
-                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
-                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
-                        };
-                        SqlCmd.Parameters.Add(ParTextSearch);
-
-                        // Criando o DataAdapter
-                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(SqlCmd))
+                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
                         {
                             // Preenchendo o DataTable
                             sqlDat.Fill(DtResultado);
@@ -203,7 +384,7 @@ namespace SysProfessor
                     sqlCon.Open();
 
                     // Cria um comando SQL que vai chamar uma stored procedure
-                    using (SqlCommand sqlCmd = new SqlCommand("spinsert_student", sqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_insert_student_and_scores", sqlCon))
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
@@ -228,72 +409,10 @@ namespace SysProfessor
 
                         // Executa o comando e verifica se a inserção foi bem-sucedida
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
-                        if (linhasAfetadas == 1)
-                        {
+                        if (linhasAfetadas > 0)
                             resp = "Registro inserido com sucesso.";
-                        }
-                        else
-                        {
-                            resp = "Registro não inserido.";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    resp = $"Erro: {ex.Message}";
-                }
-            }
-
-            return resp;
-        }
-
-        //método inserir materia
-        public static string InsertDiscipline(string name, decimal average)
-        {
-            string resp = "";
-
-            // Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
-            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
-            {
-                try
-                {
-                    // Abrindo conexão
-                    sqlCon.Open();
-
-                    // Cria um comando SQL que vai chamar uma stored procedure
-                    using (SqlCommand sqlCmd = new SqlCommand("spinsert_discipline", sqlCon))
-                    {
-                        sqlCmd.CommandType = CommandType.StoredProcedure;
-
-                        // Parâmetro para o nome do aluno
-                        SqlParameter parName = new SqlParameter
-                        {
-                            ParameterName = "@name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
-                        };
-                        sqlCmd.Parameters.Add(parName);
-
-                        // Parâmetro para a média minima para aprovação
-                        SqlParameter parAverage = new SqlParameter
-                        {
-                            ParameterName = "@average",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = average
-                        };
-                        sqlCmd.Parameters.Add(parAverage);
-
-                        // Executa o comando e verifica se a inserção foi bem-sucedida
-                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
-                        if (linhasAfetadas == 1)
-                        {
-                            resp = "Registro inserido com sucesso.";
-                        }
-                        else
-                        {
-                            resp = "Registro não inserido.";
-                        }
+                        
+                        else resp = "Registro não inserido.";
                     }
                 }
                 catch (Exception ex)
@@ -374,75 +493,6 @@ namespace SysProfessor
             return resp;
         }
 
-        //método editar estudante
-        public static string EditDiscipline(int idDiscipline, string name, decimal average)
-        {
-            string resp = "";
-
-            //Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
-            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
-            {
-                try
-                {
-                    //abrindo conexão
-                    sqlCon.Open();
-
-                    //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spedit_discipline", sqlCon))
-                    {
-                        sqlCmd.CommandType = CommandType.StoredProcedure;
-
-                        // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdDiscipline = new SqlParameter
-                        {
-                            ParameterName = "@iddiscipline",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idDiscipline
-                        };
-                        sqlCmd.Parameters.Add(parIdDiscipline);
-
-                        // Parâmetro para o nome do aluno
-                        SqlParameter parName = new SqlParameter
-                        {
-                            ParameterName = "@name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
-                        };
-                        sqlCmd.Parameters.Add(parName);
-
-                        // Parâmetro para a média minima para aprovação
-                        SqlParameter parAverage = new SqlParameter
-                        {
-                            ParameterName = "@average",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = average
-                        };
-                        sqlCmd.Parameters.Add(parAverage);
-
-                        // Executa o comando e verifica se a edição foi bem-sucedida
-                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
-                        if (linhasAfetadas == 1)
-                        {
-                            int id_Aluno = Convert.ToInt32(parIdDiscipline.Value);
-                            resp = $"Registro editado com sucesso.";
-                        }
-                        else
-                        {
-                            resp = "Registro não editado";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    resp = $"Erro: {ex.Message}";
-                    Debug.WriteLine("ERRO: " + resp);
-                }
-            }
-
-            return resp;
-        }
-
         //método deletar aluno
         public static string DeleteStudant(int idStudant)
         {
@@ -493,56 +543,6 @@ namespace SysProfessor
             return resp;
         }
 
-        //método deletar materia
-        public static string DeleteDiscipline(int idDiscipline)
-        {
-            string resp = "";
-
-            //Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
-            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
-            {
-                try
-                {
-                    //abrindo conexão
-                    sqlCon.Open();
-
-                    //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spdelete_discipline", sqlCon))
-                    {
-                        sqlCmd.CommandType = CommandType.StoredProcedure;
-
-                        // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdDiscipline = new SqlParameter
-                        {
-                            ParameterName = "@iddiscipline",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idDiscipline
-                        };
-                        sqlCmd.Parameters.Add(parIdDiscipline);
-
-                        // Executa o comando e verifica se foi deletado com sucesso
-                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
-                        if (linhasAfetadas == 1)
-                        {
-                            int id_Aluno = Convert.ToInt32(parIdDiscipline.Value);
-                            resp = $"Registro deletado com sucesso.";
-                        }
-                        else
-                        {
-                            resp = "Registro não deletado";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    resp = $"Erro: {ex.Message}";
-                    Debug.WriteLine("ERRO: " + resp);
-                }
-            }
-
-            return resp;
-        }
-
         //------------------------------------- Pegando as Quantidades -------------------------------------
 
         public static int[] GetAmount()
@@ -558,41 +558,41 @@ namespace SysProfessor
                     SqlCon.Open();
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand SqlCmd = new SqlCommand("sp_get_studants_amount", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_get_studants_amount", SqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         //parametro da quantidade de alunos
                         SqlParameter parStudantsAmount = new SqlParameter("@amount", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
                         };
-                        SqlCmd.Parameters.Add(parStudantsAmount);
+                        sqlCmd.Parameters.Add(parStudantsAmount);
 
                         // Executar a stored procedure
-                        SqlCmd.ExecuteNonQuery();
+                        sqlCmd.ExecuteNonQuery();
 
                         // Ler os valores dos parâmetros de saída
                         resp[0] = (int)parStudantsAmount.Value;
                     }
 
-                    using (SqlCommand SqlCmd = new SqlCommand("sp_get_discipline_amount", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_get_discipline_amount", SqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         //parametro da quantidade de alunos
                         SqlParameter parDisciplineAmount = new SqlParameter("@amount", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
                         };
-                        SqlCmd.Parameters.Add(parDisciplineAmount);
+                        sqlCmd.Parameters.Add(parDisciplineAmount);
 
                         // Executar a stored procedure
-                        SqlCmd.ExecuteNonQuery();
+                        sqlCmd.ExecuteNonQuery();
 
                         // Ler os valores dos parâmetros de saída
                         resp[1] = (int)parDisciplineAmount.Value;
@@ -619,25 +619,25 @@ namespace SysProfessor
                 {
                     SqlCon.Open();
 
-                    using (SqlCommand SqlCmd = new SqlCommand("sp_verify_configurations_data", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_verify_configurations_data", SqlCon))
                     {
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Definir parâmetros de saída
                         SqlParameter registered = new SqlParameter("@Registered", SqlDbType.Bit)
                         {
                             Direction = ParameterDirection.Output
                         };
-                        SqlCmd.Parameters.Add(registered);
+                        sqlCmd.Parameters.Add(registered);
 
                         SqlParameter idParam = new SqlParameter("@Id", SqlDbType.Int)
                         {
                             Direction = ParameterDirection.Output
                         };
-                        SqlCmd.Parameters.Add(idParam);
+                        sqlCmd.Parameters.Add(idParam);
 
                         // Executar a stored procedure
-                        SqlCmd.ExecuteNonQuery();
+                        sqlCmd.ExecuteNonQuery();
 
                         // Ler os valores dos parâmetros de saída
                         bool result = (bool)registered.Value;
@@ -659,128 +659,115 @@ namespace SysProfessor
             return resp;
         }
 
-        private static string EditConfigurations(SqlConnection SqlCon, int id, string professorName, string schollName)
+        private static string EditConfigurations(SqlConnection sqlCon, int id, string professorName, string schollName)
         {
             string resp = "";
 
-            //Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
-            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
+            try
             {
-                try
+                //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
+                using (SqlCommand sqlCmd = new SqlCommand("spedit_configurations", sqlCon))
                 {
-                    //abrindo conexão
-                    sqlCon.Open();
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                    //cria um comando sql que vai chamar uma função que foi escrita no sql (stored procedure)
-                    using (SqlCommand sqlCmd = new SqlCommand("spedit_configurations", sqlCon))
+                    // Parâmetro para o ID
+                    SqlParameter parId = new SqlParameter
                     {
-                        sqlCmd.CommandType = CommandType.StoredProcedure;
+                        ParameterName = "@id_conf",
+                        SqlDbType = SqlDbType.Int,
+                        Value = id
+                    };
+                    sqlCmd.Parameters.Add(parId);
 
-                        // Parâmetro para o ID
-                        SqlParameter parId = new SqlParameter
-                        {
-                            ParameterName = "@id_conf",
-                            SqlDbType = SqlDbType.Int,
-                            Value = id
-                        };
-                        sqlCmd.Parameters.Add(parId);
+                    // Parâmetro para o nome do professor
+                    SqlParameter parProfessorName = new SqlParameter
+                    {
+                        ParameterName = "@professor_name",
+                        SqlDbType = SqlDbType.VarChar,
+                        Size = 100,
+                        Value = string.IsNullOrEmpty(professorName) ? (object)DBNull.Value : professorName
+                    };
+                    sqlCmd.Parameters.Add(parProfessorName);
 
-                        // Parâmetro para o nome do professor
-                        SqlParameter parProfessorName = new SqlParameter
-                        {
-                            ParameterName = "@professor_name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(professorName) ? (object)DBNull.Value : professorName
-                        };
-                        sqlCmd.Parameters.Add(parProfessorName);
+                    // Parâmetro para o nome da escola
+                    SqlParameter parSchollName = new SqlParameter
+                    {
+                        ParameterName = "@scholl_name",
+                        SqlDbType = SqlDbType.VarChar,
+                        Size = 100,
+                        Value = string.IsNullOrEmpty(schollName) ? (object)DBNull.Value : schollName
+                    };
+                    sqlCmd.Parameters.Add(parSchollName);
 
-                        // Parâmetro para o nome da escola
-                        SqlParameter parSchollName = new SqlParameter
-                        {
-                            ParameterName = "@scholl_name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(schollName) ? (object)DBNull.Value : schollName
-                        };
-                        sqlCmd.Parameters.Add(parSchollName);
-
-                        // Executa o comando e verifica se a edição foi bem-sucedida
-                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
-                        if (linhasAfetadas == 1)
-                        {
-                            int id_Aluno = Convert.ToInt32(parId.Value);
-                            resp = $"Registro editado com sucesso.";
-                        }
-                        else
-                        {
-                            resp = "Registro não editado";
-                        }
+                    // Executa o comando e verifica se a edição foi bem-sucedida
+                    int linhasAfetadas = sqlCmd.ExecuteNonQuery();
+                    if (linhasAfetadas == 1)
+                    {
+                        int id_Aluno = Convert.ToInt32(parId.Value);
+                        resp = $"Registro editado com sucesso.";
+                    }
+                    else
+                    {
+                        resp = "Registro não editado";
                     }
                 }
-                catch (Exception ex)
-                {
-                    resp = $"Erro: {ex.Message}";
-                    Debug.WriteLine("ERRO: " + resp);
-                }
+            }
+            catch (Exception ex)
+            {
+                resp = $"Erro: {ex.Message}";
+                Debug.WriteLine("ERRO: " + resp);
             }
 
             return resp;
         }
 
-        private static string CreateConfigurations(SqlConnection SqlCon, string professorName, string schollName)
+        private static string CreateConfigurations(SqlConnection sqlCon, string professorName, string schollName)
         {
             string resp = "";
 
-            // Cria uma conexão com o banco de dados e garante que ela será fechada e liberada corretamente após o uso.
-            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
+            try
             {
-                try
+
+                // Cria um comando SQL que vai chamar uma stored procedure
+                using (SqlCommand sqlCmd = new SqlCommand("spinsert_configurations", sqlCon))
                 {
-                    // Abrindo conexão
-                    sqlCon.Open();
+                    sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                    // Cria um comando SQL que vai chamar uma stored procedure
-                    using (SqlCommand sqlCmd = new SqlCommand("spinsert_configurations", sqlCon))
+                    // Parâmetro para o nome do professor
+                    SqlParameter parProfessorName = new SqlParameter
                     {
-                        sqlCmd.CommandType = CommandType.StoredProcedure;
+                        ParameterName = "@professor_name",
+                        SqlDbType = SqlDbType.VarChar,
+                        Size = 100,
+                        Value = string.IsNullOrEmpty(professorName) ? (object)DBNull.Value : professorName
+                    };
+                    sqlCmd.Parameters.Add(parProfessorName);
 
-                        // Parâmetro para o nome do professor
-                        SqlParameter parProfessorName = new SqlParameter
-                        {
-                            ParameterName = "@professor_name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(professorName) ? (object)DBNull.Value : professorName
-                        };
-                        sqlCmd.Parameters.Add(parProfessorName);
+                    // Parâmetro para o nome da escola
+                    SqlParameter parSchollName = new SqlParameter
+                    {
+                        ParameterName = "@scholl_name",
+                        SqlDbType = SqlDbType.VarChar,
+                        Size = 100,
+                        Value = string.IsNullOrEmpty(schollName) ? (object)DBNull.Value : schollName
+                    };
+                    sqlCmd.Parameters.Add(parSchollName);
 
-                        // Parâmetro para o nome da escola
-                        SqlParameter parSchollName = new SqlParameter
-                        {
-                            ParameterName = "@scholl_name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(schollName) ? (object)DBNull.Value : schollName
-                        };
-                        sqlCmd.Parameters.Add(parSchollName);
-
-                        // Executa o comando e verifica se a inserção foi bem-sucedida
-                        int linhasAfetadas = sqlCmd.ExecuteNonQuery();
-                        if (linhasAfetadas == 1)
-                        {
-                            resp = "Registro inserido com sucesso.";
-                        }
-                        else
-                        {
-                            resp = "Registro não inserido.";
-                        }
+                    // Executa o comando e verifica se a inserção foi bem-sucedida
+                    int linhasAfetadas = sqlCmd.ExecuteNonQuery();
+                    if (linhasAfetadas == 1)
+                    {
+                        resp = "Registro inserido com sucesso.";
+                    }
+                    else
+                    {
+                        resp = "Registro não inserido.";
                     }
                 }
-                catch (Exception ex)
-                {
-                    resp = $"Erro: {ex.Message}";
-                }
+            }
+            catch (Exception ex)
+            {
+                resp = $"Erro: {ex.Message}";
             }
 
             return resp;
@@ -799,9 +786,9 @@ namespace SysProfessor
                     SqlCon.Open();
 
                     // Configurando o comando SQL
-                    using (SqlCommand SqlCmd = new SqlCommand("sp_read_configurations", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_read_configurations", SqlCon))
                     {
-                        SqlCmd.CommandType = CommandType.StoredProcedure;
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Definir parâmetros de saída
                         SqlParameter parProfessorName = new SqlParameter
@@ -811,7 +798,7 @@ namespace SysProfessor
                             Size = 100,
                             Direction = ParameterDirection.Output
                         };
-                        SqlCmd.Parameters.Add(parProfessorName);
+                        sqlCmd.Parameters.Add(parProfessorName);
 
                         SqlParameter parSchollName = new SqlParameter
                         {
@@ -820,10 +807,10 @@ namespace SysProfessor
                             Size = 100,
                             Direction = ParameterDirection.Output
                         };
-                        SqlCmd.Parameters.Add(parSchollName);
+                        sqlCmd.Parameters.Add(parSchollName);
 
                         // Executar a stored procedure
-                        SqlCmd.ExecuteNonQuery();
+                        sqlCmd.ExecuteNonQuery();
 
                         result[0] = Convert.ToString(parProfessorName.Value);
                         result[1] = Convert.ToString(parSchollName.Value);
@@ -838,7 +825,9 @@ namespace SysProfessor
             return result;
         }
 
-        public static DataTable GetStudantDiscliplines(int idStudant)
+        //------------------------------------- Notas -------------------------------------
+
+        public static DataTable GetStudentDiscliplines(int idStudant)
         {
             DataTable dtResult = new DataTable("disciplines");
 
@@ -846,15 +835,15 @@ namespace SysProfessor
             List<Tuple<int, string, decimal>> disciplines = new List<Tuple<int, string, decimal>>();
 
             // Objeto da conexão com o banco de dados
-            using (SqlConnection SqlCon = new SqlConnection(Connection.Cn))
+            using (SqlConnection sqlCon = new SqlConnection(Connection.Cn))
             {
                 try
                 {
                     // Abrindo a conexão ao banco de dados
-                    SqlCon.Open();
+                    sqlCon.Open();
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand sqlCmd = new SqlCommand("spshow_discipline", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("spshow_discipline", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
@@ -881,7 +870,7 @@ namespace SysProfessor
                     }
 
                     // Comando SQL - que está no banco de dados
-                    using (SqlCommand sqlCmd = new SqlCommand("spsearch_scores_from_studant", SqlCon))
+                    using (SqlCommand sqlCmd = new SqlCommand("spsearch_scores_from_studant", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
@@ -941,7 +930,116 @@ namespace SysProfessor
 
             return dtResult;
         }
-    
+
+        public static DataTable GetDiscliplineStudents(int idDiscipline, decimal average)
+        {
+            DataTable dtResult = new DataTable("students");
+
+            //lista de tuplas para guardar as materias
+            List<Tuple<int, string, int>> students = new List<Tuple<int, string, int>>();
+
+            // Objeto da conexão com o banco de dados
+            using (SqlConnection SqlCon = new SqlConnection(Connection.Cn))
+            {
+                try
+                {
+                    // Abrindo a conexão ao banco de dados
+                    SqlCon.Open();
+
+                    // Comando SQL - que está no banco de dados
+                    using (SqlCommand sqlCmd = new SqlCommand("sp_show_students", SqlCon))
+                    {
+                        //Define o tipo de comando como StoredProcedure, 
+                        //o que indica que estamos chamando um procedimento armazenado no banco de dados.
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        using (SqlDataReader reader = sqlCmd.ExecuteReader())
+                        {
+                            // Ler e manipular os dados
+                            while (reader.Read())
+                            {
+                                int id = reader.GetInt32(0);
+                                string name = reader.GetString(1);
+                                int number = reader.GetInt32(2);
+
+                                //Debug.WriteLine($"id: {id} nome: {name}, numero: {number}");
+
+                                //criando uma tupla
+                                Tuple<int, string, int> student = Tuple.Create(id, name, number);
+
+                                //adicinando a tupla a lista de tuplas
+                                students.Add(student);
+                            }
+                        }
+                    }
+
+                    // Comando SQL - que está no banco de dados
+                    using (SqlCommand sqlCmd = new SqlCommand("spsearch_scores_from_discipline", SqlCon))
+                    {
+                        //Define o tipo de comando como StoredProcedure, 
+                        //o que indica que estamos chamando um procedimento armazenado no banco de dados.
+                        sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter parIdDiscipline = new SqlParameter
+                        {
+                            ParameterName = "@iddiscipline",
+                            SqlDbType = SqlDbType.Int,
+                            Value = idDiscipline
+                        };
+                        sqlCmd.Parameters.Add(parIdDiscipline);
+
+                        // Objeto que vai guardar informações da tabela
+                        using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
+                        {
+                            // Preenchendo o DataTable
+                            sqlDat.Fill(dtResult);
+                        }
+
+                        // Adicionando uma nova coluna para o nome da disciplina
+                        dtResult.Columns.Add("studentName", typeof(string));
+
+                        //adicionado uma nova coluna para o numero da chamada
+                        dtResult.Columns.Add("numero", typeof(int));
+
+                        // Adicionando uma nova coluna para o status
+                        dtResult.Columns.Add("status", typeof(string));
+
+                        //mudando o valor da coluna onte estão os ids das materias
+                        foreach (DataRow row in dtResult.Rows)
+                        {
+                            foreach (Tuple<int, string, int> student in students)
+                            {
+                                if ((int)row["idaluno"] == student.Item1)
+                                {
+                                    row["studentName"] = student.Item2;
+                                    row["numero"] = student.Item3;
+                                }
+
+                                if ((decimal)row["media"] >= average)
+                                    row["status"] = "Aprovado";
+
+                                else
+                                    row["status"] = "Reprovado";
+                            }
+                            //Debug.WriteLine("valor: "+ row["studentName"]);
+                        }
+
+                        //Reorganizando as colunas para que 'studentName' fique depois de 'idmateria'
+                        dtResult.Columns["studentName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
+
+                        //Reorganizando as colunas para que 'numero' fique depois de 'studentName'
+                        dtResult.Columns["numero"].SetOrdinal(dtResult.Columns["studentName"].Ordinal + 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dtResult = null;
+                    Debug.WriteLine("Exception: " + ex);
+                }
+            }
+            return dtResult;
+        }
+
         public static string EditScores(int id, decimal sfiq, decimal ssq, decimal stq, decimal sfoq, decimal average)
         {
             string resp = "";
@@ -1035,6 +1133,6 @@ namespace SysProfessor
 
             return resp;
         }
+    
     }
-
 }

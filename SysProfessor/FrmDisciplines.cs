@@ -73,8 +73,9 @@ namespace SysProfessor
         private void BtnView_Click(object sender, EventArgs e)
         {
             FormLoader.OpenChildForm(new FrmViewDiscipline(
-                Convert.ToInt32(this.DgvDisciplines.CurrentRow.Cells["idmateria"].Value)
-                ));
+                Convert.ToInt32(this.DgvDisciplines.CurrentRow.Cells["idmateria"].Value),
+                Convert.ToString(this.DgvDisciplines.CurrentRow.Cells["nome"].Value),
+                Convert.ToDecimal(this.DgvDisciplines.CurrentRow.Cells["media"].Value) ));
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)

@@ -1,12 +1,37 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Sistemas\\SysProfessor\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|c:\\sistemas\\sysprofessor\\sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C70AE4F0-FE21-40C3-9CC2-9622CBCCA5A9}|SysProfessor\\SysProfessor.csproj|solutionrelative:sysprofessor\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Data.cs",
+              "DocumentMoniker": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
+              "RelativeDocumentMoniker": "SysProfessor\\Data.cs",
+              "ToolTip": "C:\\Sistemas\\SysProfessor\\SysProfessor\\Data.cs",
+              "RelativeToolTip": "SysProfessor\\Data.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAADgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T23:34:59.868Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

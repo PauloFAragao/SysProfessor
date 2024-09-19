@@ -32,10 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.TxtSearch = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BbnBack = new System.Windows.Forms.Button();
-            this.BtmEdit = new System.Windows.Forms.Button();
-            this.LblName = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.LblName = new System.Windows.Forms.Label();
+            this.BtmEdit = new System.Windows.Forms.Button();
+            this.BbnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DgvData)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +50,7 @@
             this.DgvData.Location = new System.Drawing.Point(0, 68);
             this.DgvData.Name = "DgvData";
             this.DgvData.ReadOnly = true;
-            this.DgvData.Size = new System.Drawing.Size(800, 382);
+            this.DgvData.Size = new System.Drawing.Size(740, 443);
             this.DgvData.TabIndex = 8;
             // 
             // label1
@@ -80,18 +80,26 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 68);
+            this.panel1.Size = new System.Drawing.Size(740, 68);
             this.panel1.TabIndex = 9;
             // 
-            // BbnBack
+            // label2
             // 
-            this.BbnBack.Location = new System.Drawing.Point(6, 6);
-            this.BbnBack.Name = "BbnBack";
-            this.BbnBack.Size = new System.Drawing.Size(75, 23);
-            this.BbnBack.TabIndex = 4;
-            this.BbnBack.Text = "< Voltar";
-            this.BbnBack.UseVisualStyleBackColor = true;
-            this.BbnBack.Click += new System.EventHandler(this.BbnBack_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(275, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(83, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Nome do Aluno:";
+            // 
+            // LblName
+            // 
+            this.LblName.AutoSize = true;
+            this.LblName.Location = new System.Drawing.Point(355, 16);
+            this.LblName.Name = "LblName";
+            this.LblName.Size = new System.Drawing.Size(34, 13);
+            this.LblName.TabIndex = 8;
+            this.LblName.Text = "Aluno";
             // 
             // BtmEdit
             // 
@@ -103,29 +111,21 @@
             this.BtmEdit.UseVisualStyleBackColor = true;
             this.BtmEdit.Click += new System.EventHandler(this.BtmEdit_Click);
             // 
-            // LblName
+            // BbnBack
             // 
-            this.LblName.AutoSize = true;
-            this.LblName.Location = new System.Drawing.Point(364, 26);
-            this.LblName.Name = "LblName";
-            this.LblName.Size = new System.Drawing.Size(34, 13);
-            this.LblName.TabIndex = 8;
-            this.LblName.Text = "Aluno";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(275, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Nome do Aluno:";
+            this.BbnBack.Location = new System.Drawing.Point(6, 6);
+            this.BbnBack.Name = "BbnBack";
+            this.BbnBack.Size = new System.Drawing.Size(75, 23);
+            this.BbnBack.TabIndex = 4;
+            this.BbnBack.Text = "< Voltar";
+            this.BbnBack.UseVisualStyleBackColor = true;
+            this.BbnBack.Click += new System.EventHandler(this.BbnBack_Click);
             // 
             // FrmViewStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(740, 511);
             this.Controls.Add(this.DgvData);
             this.Controls.Add(this.panel1);
             this.Name = "FrmViewStudent";

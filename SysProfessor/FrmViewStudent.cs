@@ -29,7 +29,7 @@ namespace SysProfessor
         private void LoadData()
         {
             this.LblName.Text = this.name;
-            this.DgvData.DataSource = Data.GetStudantDiscliplines(id);
+            this.DgvData.DataSource = Data.GetStudentDiscliplines(id);
         }
 
         private void HideColumns()

@@ -2,9 +2,9 @@ Nome do banco de dados: dbprofessor
 
 tabelas:
 CREATE TABLE alunos (
-	idaluno INT PRIMARY KEY IDENTITY(1,1),
-	nome VARCHAR(100) NOT NULL,
-	numero INT NOT NULL
+    idaluno INT PRIMARY KEY IDENTITY(1,1),
+    nome VARCHAR(100) NOT NULL,
+    numero INT NOT NULL
 );
 
 CREATE TABLE materias (
@@ -27,6 +27,6 @@ CREATE TABLE notas (
 	notast DECIMAL(5, 2) NOT NULL,
 	notatt DECIMAL(5, 2) NOT NULL,
 	notaqt DECIMAL(5, 2) NOT NULL,
-	FOREIGN KEY (idaluno) REFERENCES alunos(idaluno),
-	FOREIGN KEY (idmateria) REFERENCES materias(idmateria)
+	FOREIGN KEY (idaluno) REFERENCES alunos(idaluno) ON DELETE CASCADE,
+	FOREIGN KEY (idmateria) REFERENCES materias(idmateria) ON DELETE CASCADE
 );

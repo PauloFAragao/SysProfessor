@@ -39,6 +39,5 @@ namespace SysProfessor
             this.LblStudentsQuantity.Text = Convert.ToString(values[0]);
             this.LblDisciplineQuantity.Text = Convert.ToString(values[1]);
         }
-
     }
 }

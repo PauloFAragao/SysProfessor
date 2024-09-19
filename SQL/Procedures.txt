@@ -1,5 +1,7 @@
 USE dbprofessor
 
+----------------------- Alunos -----------------------
+
 --procedimento show, para mostrar os alunos
 CREATE PROC spshow_students
 AS
@@ -20,13 +22,24 @@ END
 GO
 
 --procedimento inserir aluno
-CREATE PROC spinsert_student
-@name VARCHAR(100),
-@num INT
+CREATE PROCEDURE sp_insert_student_and_scores
+    @name NVARCHAR(100),
+    @num INT
 AS
-INSERT INTO alunos (nome, numero)
-VALUES (@name, @num)
-GO
+BEGIN
+    DECLARE @idstudent INT;
+
+    -- Adicionar aluno na tabela alunos
+    INSERT INTO alunos (nome, numero) VALUES (@name, @num);
+
+    -- Capturar o ID do aluno inserido
+    SET @idstudent = SCOPE_IDENTITY();
+
+    -- Inserir notas para cada matéria cadastrada
+    INSERT INTO notas (idaluno, idmateria, notapt, notast, notatt, notaqt, media)
+    SELECT @idstudent, idmateria, 0.00, 0.00, 0.00, 0.00, 0.00
+    FROM materias;
+END
 
 --procedimento editar aluno
 CREATE PROC spedit_student
@@ -41,12 +54,27 @@ WHERE idaluno = @idstudent
 GO
 
 --procedimento deletar aluno
-CREATE PROC spdel_studant
-@idstudent INT
+CREATE PROC sp_del_studant
+    @idstudent INT
 AS
-delete from alunos
-where idaluno = @idstudent
+BEGIN
+    DELETE FROM alunos
+    WHERE idaluno = @idstudent;
+END
 GO
+
+--procedimento para verificar a quantidade de alunos registrados
+CREATE PROCEDURE sp_get_studants_amount
+	@amount INT OUTPUT
+AS
+BEGIN
+    SET @amount = 0;
+    SELECT @amount = COUNT(*) FROM alunos;
+END;
+GO
+
+
+----------------------- Materias -----------------------
 
 
 --procedimento show, para mostrar as materias
@@ -64,13 +92,26 @@ SELECT * FROM materias WHERE nome LIKE @name+ '%'
 GO
 
 --procedimento inserir materia
-CREATE PROC spinsert_discipline
-@name VARCHAR(100),
-@average DECIMAL(5, 2)
+--procedimento inserir materia
+CREATE PROCEDURE sp_insert_discipline_and_scores
+    @name NVARCHAR(100),
+    @average DECIMAL(5, 2)
 AS
-INSERT INTO materias (nome, media)
-VALUES (@name, @average)
-GO
+BEGIN
+    DECLARE @idmateria INT;
+
+    -- Adicionar aluno na tabela alunos
+    INSERT INTO materias (nome, media) VALUES (@name, @average);
+
+    -- Capturar o ID do aluno inserido
+    SET @idmateria = SCOPE_IDENTITY();
+
+    -- Inserir notas para cada matéria cadastrada
+    INSERT INTO notas (idaluno, idmateria, notapt, notast, notatt, notaqt, media)
+    SELECT idaluno, @idmateria, 0.00, 0.00, 0.00, 0.00, 0.00
+    FROM alunos;
+
+END
 
 --procedimento editar materia
 CREATE PROC spedit_discipline
@@ -92,16 +133,6 @@ DELETE FROM materias
 WHERE idmateria = @iddiscipline
 GO
 
---procedimento para verificar a quantidade de alunos registrados
-CREATE PROCEDURE sp_get_studants_amount
-	@amount INT OUTPUT
-AS
-BEGIN
-    SET @amount = 0;
-    SELECT @amount = COUNT(*) FROM alunos;
-END;
-GO
-
 --procedimento para verificar a quantidade de materias registrados
 CREATE PROCEDURE sp_get_discipline_amount
 	@amount INT OUTPUT
@@ -111,6 +142,8 @@ BEGIN
     SELECT @amount = COUNT(*) FROM materias;
 END;
 GO
+
+----------------------- Configurações -----------------------
 
 --procedimento para ler as configurações
 CREATE PROCEDURE sp_read_configurations
