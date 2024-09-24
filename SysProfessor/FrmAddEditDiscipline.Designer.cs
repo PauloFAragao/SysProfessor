@@ -77,9 +77,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(61, 109);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 17);
+            this.label2.Size = new System.Drawing.Size(98, 17);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Média míinima:";
+            this.label2.Text = "Média mínima:";
             // 
             // label1
             // 

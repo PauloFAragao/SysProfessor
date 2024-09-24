@@ -29,6 +29,11 @@ namespace SysProfessor
             this.TxtSchoolName.Text = values[1];
         }
 
+        private void ErrorMessage(string message, string title)
+        {
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
         private void Save()
         {
             string professorName = "";
@@ -41,8 +46,9 @@ namespace SysProfessor
             }
             else
             {
-                Debug.WriteLine("Campo nome não preenchido");
-
+                //Debug.WriteLine("Campo nome não preenchido");
+                ErrorMessage("Campo nome do professor não preenchido", "Campo não preenchido");
+                return;
                 //ErrorIcone.SetError(this.TxtName, "Insira o nome");
             }
 
@@ -53,12 +59,17 @@ namespace SysProfessor
             }
             else
             {
-                Debug.WriteLine("Campo nome não preenchido");
-
+                //Debug.WriteLine("Campo nome não preenchido");
+                ErrorMessage("Campo nome da escola não preenchido", "Campo não preenchido");
+                return;
                 //ErrorIcone.SetError(this.TxtName, "Insira o nome");
             }
 
-            Debug.WriteLine(Data.SetConfigurations(professorName, schollName));
+            //Debug.WriteLine(Data.SetConfigurations(professorName, schollName));
+
+            string resp = Data.SetConfigurations(professorName, schollName);
+
+            MessageBox.Show(resp, resp, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
 

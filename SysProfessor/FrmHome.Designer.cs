@@ -102,7 +102,7 @@
             // 
             this.LblStudentsQuantity.AutoSize = true;
             this.LblStudentsQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblStudentsQuantity.Location = new System.Drawing.Point(191, 92);
+            this.LblStudentsQuantity.Location = new System.Drawing.Point(182, 93);
             this.LblStudentsQuantity.Name = "LblStudentsQuantity";
             this.LblStudentsQuantity.Size = new System.Drawing.Size(14, 16);
             this.LblStudentsQuantity.TabIndex = 6;
@@ -112,7 +112,7 @@
             // 
             this.LblDisciplineQuantity.AutoSize = true;
             this.LblDisciplineQuantity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblDisciplineQuantity.Location = new System.Drawing.Point(110, 120);
+            this.LblDisciplineQuantity.Location = new System.Drawing.Point(101, 121);
             this.LblDisciplineQuantity.Name = "LblDisciplineQuantity";
             this.LblDisciplineQuantity.Size = new System.Drawing.Size(14, 16);
             this.LblDisciplineQuantity.TabIndex = 7;

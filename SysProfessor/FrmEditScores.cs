@@ -74,22 +74,20 @@ namespace SysProfessor
                     }
                     else
                     {
-                        Debug.WriteLine("O valor inserido no campo primeiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        //Debug.WriteLine("O valor inserido no campo primeiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("O valor inserido no campo primeiro trimestre não pode ser convertido para decimal!");
-
+                    //Debug.WriteLine("O valor inserido no campo primeiro trimestre não pode ser convertido para decimal!");
                     return false;
                     //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
-                Debug.WriteLine("Campo nota do primeiro trimestre não preenchido");
-
+                //Debug.WriteLine("Campo nota do primeiro trimestre não preenchido");
                 return false;
                 //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
@@ -110,22 +108,20 @@ namespace SysProfessor
                     }
                     else
                     {
-                        Debug.WriteLine("O valor inserido no campo segundo trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        //Debug.WriteLine("O valor inserido no campo segundo trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("O valor inserido no campo segundo trimestre não pode ser convertido para decimal!");
-
+                    //Debug.WriteLine("O valor inserido no campo segundo trimestre não pode ser convertido para decimal!");
                     return false;
                     //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
-                Debug.WriteLine("Campo segundo trimestre não preenchido");
-
+                //Debug.WriteLine("Campo segundo trimestre não preenchido"); 
                 return false;
                 //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
@@ -147,22 +143,20 @@ namespace SysProfessor
                     }
                     else
                     {
-                        Debug.WriteLine("O valor inserido no campo terceiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        //Debug.WriteLine("O valor inserido no campo terceiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("O valor inserido no campo terceiro trimestre não pode ser convertido para decimal!");
-
+                    //Debug.WriteLine("O valor inserido no campo terceiro trimestre não pode ser convertido para decimal!");
                     return false;
                     //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
-                Debug.WriteLine("Campo terceiro trimestre não preenchido");
-
+                //Debug.WriteLine("Campo terceiro trimestre não preenchido");
                 return false;
                 //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
@@ -183,22 +177,20 @@ namespace SysProfessor
                     }
                     else
                     {
-                        Debug.WriteLine("O valor inserido no campo terceiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        //Debug.WriteLine("O valor inserido no campo terceiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
                         return false;
                     }
                 }
                 else
                 {
-                    Debug.WriteLine("O valor inserido no campo quarto trimestre não pode ser convertido para decimal!");
-
+                    //Debug.WriteLine("O valor inserido no campo quarto trimestre não pode ser convertido para decimal!");
                     return false;
                     //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
-                Debug.WriteLine("Campo quarto trimestre não preenchido");
-
+                //Debug.WriteLine("Campo quarto trimestre não preenchido");
                 return false;
                 //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
@@ -211,13 +203,17 @@ namespace SysProfessor
                ReadThirdQuarterScore() &&
                ReadFourthQuarterScore())
             {
-                Data.EditScores(id, sfiq, ssq, stq, sfoq, average);
+                string resp = Data.EditScores(id, sfiq, ssq, stq, sfoq, average);
 
-                
+                MessageBox.Show(resp, "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 return true;
             }
-            else return false;
+            else
+            {
+                MessageBox.Show("Todos os campos tem que ser preenchidos corretamente! (números decimais entre 0 e 10) ", "ERRO!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
         }
 
         private void TxtSfiq_TextChanged(object sender, EventArgs e)

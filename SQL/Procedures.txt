@@ -25,7 +25,7 @@ GO
 
 --procedimento inserir aluno
 CREATE PROCEDURE sp_insert_student_and_scores
-    @name NVARCHAR(100),
+    @name VARCHAR(100),
     @num INT
 AS
 BEGIN
