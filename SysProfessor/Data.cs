@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Xml.Linq;
-using System.Data.SqlTypes;
 
 namespace SysProfessor
 {
@@ -76,15 +71,7 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Adicionando o parâmetro ao comando SQL
-                        SqlParameter ParTextSearch = new SqlParameter
-                        {
-                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
-                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
-                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
-                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
-                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
-                        };
-                        sqlCmd.Parameters.Add(ParTextSearch);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100 ));
 
                         // Criando o DataAdapter
                         using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
@@ -123,23 +110,10 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Parâmetro para o nome do aluno
-                        SqlParameter parName = new SqlParameter
-                        {
-                            ParameterName = "@name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
-                        };
-                        sqlCmd.Parameters.Add(parName);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         // Parâmetro para a média minima para aprovação
-                        SqlParameter parAverage = new SqlParameter
-                        {
-                            ParameterName = "@average",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = average
-                        };
-                        sqlCmd.Parameters.Add(parAverage);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(average, "@average"));
 
                         // Executa o comando e verifica se a inserção foi bem-sucedida
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
@@ -180,39 +154,19 @@ namespace SysProfessor
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdDiscipline = new SqlParameter
-                        {
-                            ParameterName = "@iddiscipline",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idDiscipline
-                        };
-                        sqlCmd.Parameters.Add(parIdDiscipline);
-
+                        // Parâmetro de saída para o ID da diciplina
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idDiscipline , "@iddiscipline"));
+                        
                         // Parâmetro para o nome do aluno
-                        SqlParameter parName = new SqlParameter
-                        {
-                            ParameterName = "@name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
-                        };
-                        sqlCmd.Parameters.Add(parName);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         // Parâmetro para a média minima para aprovação
-                        SqlParameter parAverage = new SqlParameter
-                        {
-                            ParameterName = "@average",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = average
-                        };
-                        sqlCmd.Parameters.Add(parAverage);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(average, "@average"));
 
                         // Executa o comando e verifica se a edição foi bem-sucedida
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
                         if (linhasAfetadas == 1)
                         {
-                            int id_Aluno = Convert.ToInt32(parIdDiscipline.Value);
                             resp = $"Registro editado com sucesso.";
                         }
                         else
@@ -249,20 +203,13 @@ namespace SysProfessor
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdDiscipline = new SqlParameter
-                        {
-                            ParameterName = "@iddiscipline",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idDiscipline
-                        };
-                        sqlCmd.Parameters.Add(parIdDiscipline);
+                        // Parâmetro de saída para o ID da diciplina
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idDiscipline, "@iddiscipline"));
 
                         // Executa o comando e verifica se foi deletado com sucesso
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
                         if (linhasAfetadas == 1)
                         {
-                            int id_Aluno = Convert.ToInt32(parIdDiscipline.Value);
                             resp = $"Registro deletado com sucesso.";
                         }
                         else
@@ -342,15 +289,7 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Adicionando o parâmetro ao comando SQL
-                        SqlParameter ParTextSearch = new SqlParameter
-                        {
-                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
-                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
-                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
-                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
-                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
-                        };
-                        sqlCmd.Parameters.Add(ParTextSearch);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         // Criando o DataAdapter
                         using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
@@ -389,23 +328,10 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Parâmetro para o nome do aluno
-                        SqlParameter parName = new SqlParameter
-                        {
-                            ParameterName = "@name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
-                        };
-                        sqlCmd.Parameters.Add(parName);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         // Parâmetro para o número do aluno
-                        SqlParameter parNumber = new SqlParameter
-                        {
-                            ParameterName = "@num",
-                            SqlDbType = SqlDbType.Int,
-                            Value = number
-                        };
-                        sqlCmd.Parameters.Add(parNumber);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(number, "@num"));
 
                         // Executa o comando e verifica se a inserção foi bem-sucedida
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
@@ -442,39 +368,19 @@ namespace SysProfessor
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdStudant = new SqlParameter
-                        {
-                            ParameterName = "@idstudent",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idStudant
-                        };
-                        sqlCmd.Parameters.Add(parIdStudant);
+                        // Parâmetro para o ID do aluno
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idStudant, "@idstudent"));
 
                         // Parâmetro para o nome do aluno
-                        SqlParameter parName = new SqlParameter
-                        {
-                            ParameterName = "@name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Value = string.IsNullOrEmpty(name) ? (object)DBNull.Value : name
-                        };
-                        sqlCmd.Parameters.Add(parName);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         // Parâmetro para o número do aluno
-                        SqlParameter parNumber = new SqlParameter
-                        {
-                            ParameterName = "@num",
-                            SqlDbType = SqlDbType.Int,
-                            Value = number
-                        };
-                        sqlCmd.Parameters.Add(parNumber);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(number, "@num"));
 
                         // Executa o comando e verifica se a edição foi bem-sucedida
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
                         if (linhasAfetadas == 1)
                         {
-                            int id_Aluno = Convert.ToInt32(parIdStudant.Value);
                             resp = $"Registro editado com sucesso.";
                         }
                         else
@@ -512,19 +418,12 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdStudant = new SqlParameter
-                        {
-                            ParameterName = "@idstudent",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idStudant
-                        };
-                        sqlCmd.Parameters.Add(parIdStudant);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idStudant, "@idstudent"));
 
                         // Executa o comando e verifica se foi deletado com sucesso
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
                         if (linhasAfetadas == 1)
                         {
-                            int id_Aluno = Convert.ToInt32(parIdStudant.Value);
                             resp = $"Registro deletado com sucesso.";
                         }
                         else
@@ -565,10 +464,7 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         //parametro da quantidade de alunos
-                        SqlParameter parStudantsAmount = new SqlParameter("@amount", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
+                        SqlParameter parStudantsAmount = CreateSqlParameter("@amount", ParameterDirection.Output, SqlDbType.Int);
                         sqlCmd.Parameters.Add(parStudantsAmount);
 
                         // Executar a stored procedure
@@ -585,10 +481,7 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         //parametro da quantidade de alunos
-                        SqlParameter parDisciplineAmount = new SqlParameter("@amount", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
+                        SqlParameter parDisciplineAmount = CreateSqlParameter("@amount", ParameterDirection.Output, SqlDbType.Int);
                         sqlCmd.Parameters.Add(parDisciplineAmount);
 
                         // Executar a stored procedure
@@ -623,17 +516,12 @@ namespace SysProfessor
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        // Definir parâmetros de saída
-                        SqlParameter registered = new SqlParameter("@Registered", SqlDbType.Bit)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
+                        //parâmetro de saída para verificar se há algum registro
+                        SqlParameter registered = CreateSqlParameter("@Registered", ParameterDirection.Output, SqlDbType.Bit);
                         sqlCmd.Parameters.Add(registered);
 
-                        SqlParameter idParam = new SqlParameter("@Id", SqlDbType.Int)
-                        {
-                            Direction = ParameterDirection.Output
-                        };
+                        //parâmetro de saída do id do registro
+                        SqlParameter idParam = CreateSqlParameter("@Id", ParameterDirection.Output, SqlDbType.Int);
                         sqlCmd.Parameters.Add(idParam);
 
                         // Executar a stored procedure
@@ -671,39 +559,18 @@ namespace SysProfessor
                     sqlCmd.CommandType = CommandType.StoredProcedure;
 
                     // Parâmetro para o ID
-                    SqlParameter parId = new SqlParameter
-                    {
-                        ParameterName = "@id_conf",
-                        SqlDbType = SqlDbType.Int,
-                        Value = id
-                    };
-                    sqlCmd.Parameters.Add(parId);
+                    sqlCmd.Parameters.Add( CreateSqlParameter(id, "@id_conf") );
 
                     // Parâmetro para o nome do professor
-                    SqlParameter parProfessorName = new SqlParameter
-                    {
-                        ParameterName = "@professor_name",
-                        SqlDbType = SqlDbType.VarChar,
-                        Size = 100,
-                        Value = string.IsNullOrEmpty(professorName) ? (object)DBNull.Value : professorName
-                    };
-                    sqlCmd.Parameters.Add(parProfessorName);
+                    sqlCmd.Parameters.Add(CreateSqlParameter(professorName, "@professor_name", 100));
 
                     // Parâmetro para o nome da escola
-                    SqlParameter parSchollName = new SqlParameter
-                    {
-                        ParameterName = "@scholl_name",
-                        SqlDbType = SqlDbType.VarChar,
-                        Size = 100,
-                        Value = string.IsNullOrEmpty(schollName) ? (object)DBNull.Value : schollName
-                    };
-                    sqlCmd.Parameters.Add(parSchollName);
+                    sqlCmd.Parameters.Add(CreateSqlParameter(schollName, "@scholl_name", 100));
 
                     // Executa o comando e verifica se a edição foi bem-sucedida
                     int linhasAfetadas = sqlCmd.ExecuteNonQuery();
                     if (linhasAfetadas == 1)
                     {
-                        int id_Aluno = Convert.ToInt32(parId.Value);
                         resp = $"Registro editado com sucesso.";
                     }
                     else
@@ -734,24 +601,10 @@ namespace SysProfessor
                     sqlCmd.CommandType = CommandType.StoredProcedure;
 
                     // Parâmetro para o nome do professor
-                    SqlParameter parProfessorName = new SqlParameter
-                    {
-                        ParameterName = "@professor_name",
-                        SqlDbType = SqlDbType.VarChar,
-                        Size = 100,
-                        Value = string.IsNullOrEmpty(professorName) ? (object)DBNull.Value : professorName
-                    };
-                    sqlCmd.Parameters.Add(parProfessorName);
+                    sqlCmd.Parameters.Add(CreateSqlParameter(professorName, "@professor_name", 100));
 
                     // Parâmetro para o nome da escola
-                    SqlParameter parSchollName = new SqlParameter
-                    {
-                        ParameterName = "@scholl_name",
-                        SqlDbType = SqlDbType.VarChar,
-                        Size = 100,
-                        Value = string.IsNullOrEmpty(schollName) ? (object)DBNull.Value : schollName
-                    };
-                    sqlCmd.Parameters.Add(parSchollName);
+                    sqlCmd.Parameters.Add(CreateSqlParameter(schollName, "@scholl_name", 100));
 
                     // Executa o comando e verifica se a inserção foi bem-sucedida
                     int linhasAfetadas = sqlCmd.ExecuteNonQuery();
@@ -790,23 +643,12 @@ namespace SysProfessor
                     {
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        // Definir parâmetros de saída
-                        SqlParameter parProfessorName = new SqlParameter
-                        {
-                            ParameterName = "@professor_name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Direction = ParameterDirection.Output
-                        };
+                        // parâmetro para receber o nome do professor
+                        SqlParameter parProfessorName = CreateSqlParameter("@professor_name", ParameterDirection.Output, SqlDbType.VarChar, 100);
                         sqlCmd.Parameters.Add(parProfessorName);
 
-                        SqlParameter parSchollName = new SqlParameter
-                        {
-                            ParameterName = "@scholl_name",
-                            SqlDbType = SqlDbType.VarChar,
-                            Size = 100,
-                            Direction = ParameterDirection.Output
-                        };
+                        // parâmetro para receber o nome da escola
+                        SqlParameter parSchollName = CreateSqlParameter("@scholl_name", ParameterDirection.Output, SqlDbType.VarChar, 100);
                         sqlCmd.Parameters.Add(parSchollName);
 
                         // Executar a stored procedure
@@ -876,13 +718,8 @@ namespace SysProfessor
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        SqlParameter parIdStudant = new SqlParameter
-                        {
-                            ParameterName = "@idstudent",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idStudant
-                        };
-                        sqlCmd.Parameters.Add(parIdStudant);
+                        // Parâmetro para o ID do aluno
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idStudant, "@idstudent"));
 
                         // Objeto que vai guardar informações da tabela
                         using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
@@ -980,13 +817,8 @@ namespace SysProfessor
                         //o que indica que estamos chamando um procedimento armazenado no banco de dados.
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                        SqlParameter parIdDiscipline = new SqlParameter
-                        {
-                            ParameterName = "@iddiscipline",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idDiscipline
-                        };
-                        sqlCmd.Parameters.Add(parIdDiscipline);
+                        // Parâmetro para o ID da máteria
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idDiscipline, "@iddiscipline"));
 
                         // Objeto que vai guardar informações da tabela
                         using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
@@ -1063,15 +895,7 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Adicionando o parâmetro ao comando SQL
-                        SqlParameter ParTextSearch = new SqlParameter
-                        {
-                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
-                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
-                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
-                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
-                                                                   //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
-                        };
-                        sqlCmd.Parameters.Add(ParTextSearch);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         using (SqlDataReader reader = sqlCmd.ExecuteReader())
                         {
@@ -1099,24 +923,10 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdStudant = new SqlParameter
-                        {
-                            ParameterName = "@idstudent",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idStudant
-                        };
-                        sqlCmd.Parameters.Add(parIdStudant);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idStudant, "@idstudent"));
 
                         // Adicionando o parâmetro ao comando SQL
-                        SqlParameter ParTextSearch = new SqlParameter
-                        {
-                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
-                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
-                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
-                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
-                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
-                        };
-                        sqlCmd.Parameters.Add(ParTextSearch);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         // Criando o DataAdapter
                         using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
@@ -1187,15 +997,7 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Adicionando o parâmetro ao comando SQL
-                        SqlParameter ParTextSearch = new SqlParameter
-                        {
-                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
-                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
-                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
-                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
-                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
-                        };
-                        sqlCmd.Parameters.Add(ParTextSearch);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         using (SqlDataReader reader = sqlCmd.ExecuteReader())
                         {
@@ -1223,24 +1025,10 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Parâmetro de saída para o ID da nome
-                        SqlParameter parIdDiscipline = new SqlParameter
-                        {
-                            ParameterName = "@iddiscipline",
-                            SqlDbType = SqlDbType.Int,
-                            Value = idDiscipline
-                        };
-                        sqlCmd.Parameters.Add(parIdDiscipline);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(idDiscipline, "@iddiscipline"));
 
                         // Adicionando o parâmetro ao comando SQL
-                        SqlParameter ParTextSearch = new SqlParameter
-                        {
-                            ParameterName = "@name", //Nome do parâmetro no procedimento armazenado. nome da variavel no sql
-                            SqlDbType = SqlDbType.VarChar, //Define o tipo de dados como VARCHAR no banco de dados.
-                            Size = 100, //Define o tamanho do VARCHAR (50 caracteres).
-                            Value = (object)name ?? DBNull.Value // Usando DBNull.Value para valores nulos
-                                                                 //O valor do parâmetro, que pode ser o texto a ser buscado. Usa DBNull.Value para valores nulos
-                        };
-                        sqlCmd.Parameters.Add(ParTextSearch);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(name, "@name", 100));
 
                         // Criando o DataAdapter
                         using (SqlDataAdapter sqlDat = new SqlDataAdapter(sqlCmd))
@@ -1315,64 +1103,27 @@ namespace SysProfessor
                         sqlCmd.CommandType = CommandType.StoredProcedure;
 
                         // Parâmetro para o ID
-                        SqlParameter parId = new SqlParameter
-                        {
-                            ParameterName = "@idscores",
-                            SqlDbType = SqlDbType.Int,
-                            Value = id
-                        };
-                        sqlCmd.Parameters.Add(parId);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(id, "@idscores"));
 
                         // Parâmetro para a nota do primeiro trimestre
-                        SqlParameter parSfiq = new SqlParameter
-                        {
-                            ParameterName = "@scorefit",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = sfiq
-                        };
-                        sqlCmd.Parameters.Add(parSfiq);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(sfiq, "@scorefit"));
 
                         // Parâmetro para a nota do segundo trimestre
-                        SqlParameter parSsq = new SqlParameter
-                        {
-                            ParameterName = "@scorest",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = ssq
-                        };
-                        sqlCmd.Parameters.Add(parSsq);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(ssq, "@scorest"));
 
                         // Parâmetro para a nota do terceiro trimestre
-                        SqlParameter parStq = new SqlParameter
-                        {
-                            ParameterName = "@scorett",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = stq
-                        };
-                        sqlCmd.Parameters.Add(parStq);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(stq, "@scorett"));
 
                         // Parâmetro para a nota do quarto trimestre
-                        SqlParameter parSfoq = new SqlParameter
-                        {
-                            ParameterName = "@scorefot",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = sfoq
-                        };
-                        sqlCmd.Parameters.Add(parSfoq);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(sfoq, "@scorefot"));
 
                         // Parâmetro para a média minima para aprovação
-                        SqlParameter parAverage = new SqlParameter
-                        {
-                            ParameterName = "@average",
-                            SqlDbType = SqlDbType.Decimal,
-                            Value = average
-                        };
-                        sqlCmd.Parameters.Add(parAverage);
+                        sqlCmd.Parameters.Add(CreateSqlParameter(average, "@average"));
 
                         // Executa o comando e verifica se a edição foi bem-sucedida
                         int linhasAfetadas = sqlCmd.ExecuteNonQuery();
                         if (linhasAfetadas == 1)
                         {
-                            int id_Aluno = Convert.ToInt32(parId.Value);
                             resp = $"Registro editado com sucesso.";
                         }
                         else
@@ -1390,6 +1141,75 @@ namespace SysProfessor
 
             return resp;
         }
-    
+
+        //------------------------------------- SqlParameter -------------------------------------
+
+        //sobrecarga para criar um parametro do tipo int não output
+        private static SqlParameter CreateSqlParameter(int value, string varName)
+        {
+            //Debug.WriteLine($"value: {value}, varname: {varName}");
+            SqlParameter parameter = new SqlParameter
+            {
+                ParameterName = varName,
+                SqlDbType = SqlDbType.Int,
+                Value = value
+            };
+            return parameter;
+        }
+
+        //sobrecarga para criar um parametro do tipo decimal não output
+        private static SqlParameter CreateSqlParameter(decimal value, string varName)
+        {
+            //Debug.WriteLine($"value: {value}, varname: {varName}");
+            SqlParameter parameter = new SqlParameter
+            {
+                ParameterName = varName,
+                SqlDbType = SqlDbType.Decimal,
+                Value = value
+            };
+            return parameter;
+        }
+
+        //sobrecarga para criar um paramentro do tipo string não output
+        private static SqlParameter CreateSqlParameter(string value, string varName, int size)
+        {
+            //Debug.WriteLine($"value: {value}, varname: {varName}, size: {size}");
+            SqlParameter parameter = new SqlParameter
+            {
+                ParameterName = varName,
+                SqlDbType = SqlDbType.VarChar,
+                Size = size,
+                Value = value
+            };
+            return parameter;
+        }
+
+        //sobrecarga para criar um paramentro ParameterDirection.Output
+        private static SqlParameter CreateSqlParameter(string varName, ParameterDirection direction, SqlDbType type)
+        {
+            //Debug.WriteLine($"varname: {varName}");
+            SqlParameter parameter = new SqlParameter
+            {
+                Direction = direction,
+                SqlDbType = type,
+                ParameterName = varName
+            };
+            return parameter;
+        }
+
+        //sobrecarga para criar um paramentro ParameterDirection.Output para string
+        private static SqlParameter CreateSqlParameter(string varName, ParameterDirection direction, SqlDbType type, int size)
+        {
+            //Debug.WriteLine($"varname: {varName}");
+            SqlParameter parameter = new SqlParameter
+            {
+                Direction = direction,
+                SqlDbType = type,
+                Size = size,
+                ParameterName = varName
+            };
+            return parameter;
+        }
+
     }
 }
