@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace SysProfessor
 {
@@ -47,6 +38,7 @@ namespace SysProfessor
             else
             {
                 //Debug.WriteLine("Campo nome não preenchido");
+                ErrorIcone.SetError(this.TxtProfessorName, "Campo nome do professor não preenchido");
                 ErrorMessage("Campo nome do professor não preenchido", "Campo não preenchido");
                 return;
                 //ErrorIcone.SetError(this.TxtName, "Insira o nome");
@@ -60,6 +52,7 @@ namespace SysProfessor
             else
             {
                 //Debug.WriteLine("Campo nome não preenchido");
+                ErrorIcone.SetError(this.TxtSchoolName, "Campo nome da escola não preenchido");
                 ErrorMessage("Campo nome da escola não preenchido", "Campo não preenchido");
                 return;
                 //ErrorIcone.SetError(this.TxtName, "Insira o nome");
@@ -76,6 +69,16 @@ namespace SysProfessor
         private void BtnSave_Click(object sender, EventArgs e)
         {
             Save();
+        }
+
+        private void TxtProfessorName_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(this.TxtProfessorName, string.Empty);
+        }
+
+        private void TxtSchoolName_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(this.TxtSchoolName, string.Empty);
         }
     }
 }

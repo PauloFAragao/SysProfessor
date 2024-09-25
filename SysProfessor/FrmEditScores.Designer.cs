@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.BtnSave = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,6 +45,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.LblDisciplineName = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.ErrorIcone = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnSave
@@ -188,6 +191,12 @@
             this.label8.TabIndex = 14;
             this.label8.Text = "Nome da Matéria:";
             // 
+            // ErrorIcone
+            // 
+            this.ErrorIcone.BlinkRate = 0;
+            this.ErrorIcone.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.ErrorIcone.ContainerControl = this;
+            // 
             // FrmEditScores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -212,6 +221,7 @@
             this.Name = "FrmEditScores";
             this.Text = "Editar Notas";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmEditScores_FormClosed);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -235,5 +245,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label LblDisciplineName;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ErrorProvider ErrorIcone;
     }
 }

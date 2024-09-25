@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.TxtProfessorName = new System.Windows.Forms.TextBox();
             this.TxtSchoolName = new System.Windows.Forms.TextBox();
             this.BtnSave = new System.Windows.Forms.Button();
+            this.ErrorIcone = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -61,6 +64,7 @@
             this.TxtProfessorName.Name = "TxtProfessorName";
             this.TxtProfessorName.Size = new System.Drawing.Size(262, 20);
             this.TxtProfessorName.TabIndex = 10;
+            this.TxtProfessorName.TextChanged += new System.EventHandler(this.TxtProfessorName_TextChanged);
             // 
             // TxtSchoolName
             // 
@@ -68,16 +72,23 @@
             this.TxtSchoolName.Name = "TxtSchoolName";
             this.TxtSchoolName.Size = new System.Drawing.Size(262, 20);
             this.TxtSchoolName.TabIndex = 11;
+            this.TxtSchoolName.TextChanged += new System.EventHandler(this.TxtSchoolName_TextChanged);
             // 
             // BtnSave
             // 
-            this.BtnSave.Location = new System.Drawing.Point(427, 28);
+            this.BtnSave.Location = new System.Drawing.Point(346, 86);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(75, 23);
             this.BtnSave.TabIndex = 12;
             this.BtnSave.Text = "Salvar";
             this.BtnSave.UseVisualStyleBackColor = true;
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
+            // 
+            // ErrorIcone
+            // 
+            this.ErrorIcone.BlinkRate = 0;
+            this.ErrorIcone.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.ErrorIcone.ContainerControl = this;
             // 
             // FrmConfigurations
             // 
@@ -91,6 +102,7 @@
             this.Controls.Add(this.label1);
             this.Name = "FrmConfigurations";
             this.Text = "FrmConfigurations";
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -103,5 +115,6 @@
         private System.Windows.Forms.TextBox TxtProfessorName;
         private System.Windows.Forms.TextBox TxtSchoolName;
         private System.Windows.Forms.Button BtnSave;
+        private System.Windows.Forms.ErrorProvider ErrorIcone;
     }
 }

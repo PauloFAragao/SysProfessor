@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Xml.Linq;
 
 namespace SysProfessor
 {

@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SysProfessor
@@ -45,10 +38,10 @@ namespace SysProfessor
             else
             {
                 //Debug.WriteLine("Campo nome não preenchido");
+                ErrorIcone.SetError(this.TxtName, "Insira o nome");
                 ErrorMessage("Campo nome não preenchido", "Campo não preenchido");
-
+                
                 return false;
-                //ErrorIcone.SetError(this.TxtName, "Insira o nome");
             }
 
             //validando o campo numero
@@ -61,19 +54,19 @@ namespace SysProfessor
                 else
                 {
                     //Debug.WriteLine("O valor inserido no campo id não pode ser convertido para inteiro!");
+                    ErrorIcone.SetError(this.TxtAverage, "Insira um número Decimal");
                     ErrorMessage("Valor invalido! - O valor inserido no campo média não pode ser convertido para decimal!", "Campo preenchido incorretamente");
-
+                    
                     return false;
-                    //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
                 //Debug.WriteLine("Campo numero não preenchido");
+                ErrorIcone.SetError(this.TxtAverage, "Insira um número Decimal");
                 ErrorMessage("Campo média não preenchido", "Campo não preenchido");
-
+                
                 return false;
-                //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
 
             if (editMode)
@@ -137,6 +130,16 @@ namespace SysProfessor
         {
             if (Save())
                 FormLoader.OpenChildForm(new FrmDisciplines());
+        }
+
+        private void TxtName_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(TxtName, string.Empty);
+        }
+
+        private void TxtAverage_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(TxtAverage, string.Empty);
         }
     }
 }

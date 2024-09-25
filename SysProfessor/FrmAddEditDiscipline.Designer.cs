@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnSave = new System.Windows.Forms.Button();
             this.TxtAverage = new System.Windows.Forms.TextBox();
@@ -35,6 +36,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnBack = new System.Windows.Forms.Button();
+            this.ErrorIcone = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnCancel
@@ -63,6 +66,7 @@
             this.TxtAverage.Name = "TxtAverage";
             this.TxtAverage.Size = new System.Drawing.Size(82, 20);
             this.TxtAverage.TabIndex = 11;
+            this.TxtAverage.TextChanged += new System.EventHandler(this.TxtAverage_TextChanged);
             // 
             // TxtName
             // 
@@ -70,6 +74,7 @@
             this.TxtName.Name = "TxtName";
             this.TxtName.Size = new System.Drawing.Size(238, 20);
             this.TxtName.TabIndex = 10;
+            this.TxtName.TextChanged += new System.EventHandler(this.TxtName_TextChanged);
             // 
             // label2
             // 
@@ -101,6 +106,12 @@
             this.BtnBack.UseVisualStyleBackColor = true;
             this.BtnBack.Click += new System.EventHandler(this.BtnBack_Click);
             // 
+            // ErrorIcone
+            // 
+            this.ErrorIcone.BlinkRate = 0;
+            this.ErrorIcone.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.ErrorIcone.ContainerControl = this;
+            // 
             // FrmAddEditDiscipline
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -115,6 +126,7 @@
             this.Controls.Add(this.BtnBack);
             this.Name = "FrmAddEditDiscipline";
             this.Text = "FrmAddEditDiscipline";
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,5 +141,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button BtnBack;
+        private System.Windows.Forms.ErrorProvider ErrorIcone;
     }
 }

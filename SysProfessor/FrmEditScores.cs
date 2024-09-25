@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SysProfessor
@@ -40,6 +32,12 @@ namespace SysProfessor
             this.TxtSfoq.Text = Convert.ToString(sfoq);
 
             this.LblAverage.Text = Convert.ToString(average);
+
+            ErrorIcone.SetError(this.TxtSfiq, string.Empty);
+            ErrorIcone.SetError(this.TxtSsq, string.Empty);
+            ErrorIcone.SetError(this.TxtStq, string.Empty);
+            ErrorIcone.SetError(this.TxtSfoq, string.Empty);
+
         }
 
         private void CalculateAverage()
@@ -75,21 +73,22 @@ namespace SysProfessor
                     else
                     {
                         //Debug.WriteLine("O valor inserido no campo primeiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                         return false;
                     }
                 }
                 else
                 {
                     //Debug.WriteLine("O valor inserido no campo primeiro trimestre não pode ser convertido para decimal!");
+                    ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                     return false;
-                    //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
                 //Debug.WriteLine("Campo nota do primeiro trimestre não preenchido");
+                ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                 return false;
-                //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
         }
 
@@ -109,21 +108,22 @@ namespace SysProfessor
                     else
                     {
                         //Debug.WriteLine("O valor inserido no campo segundo trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                         return false;
                     }
                 }
                 else
                 {
                     //Debug.WriteLine("O valor inserido no campo segundo trimestre não pode ser convertido para decimal!");
+                    ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                     return false;
-                    //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
                 //Debug.WriteLine("Campo segundo trimestre não preenchido"); 
+                ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                 return false;
-                //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
         }
 
@@ -144,21 +144,22 @@ namespace SysProfessor
                     else
                     {
                         //Debug.WriteLine("O valor inserido no campo terceiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                         return false;
                     }
                 }
                 else
                 {
                     //Debug.WriteLine("O valor inserido no campo terceiro trimestre não pode ser convertido para decimal!");
+                    ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                     return false;
-                    //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
                 //Debug.WriteLine("Campo terceiro trimestre não preenchido");
+                ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                 return false;
-                //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
         }
 
@@ -178,21 +179,22 @@ namespace SysProfessor
                     else
                     {
                         //Debug.WriteLine("O valor inserido no campo terceiro trimestre tem que ser maior ou igual a zero e menor ou igual a 10!");
+                        ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                         return false;
                     }
                 }
                 else
                 {
                     //Debug.WriteLine("O valor inserido no campo quarto trimestre não pode ser convertido para decimal!");
+                    ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                     return false;
-                    //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
                 }
             }
             else
             {
                 //Debug.WriteLine("Campo quarto trimestre não preenchido");
+                ErrorIcone.SetError(this.TxtSfiq, "Insira um número Decimal");
                 return false;
-                //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
         }
 
@@ -218,27 +220,31 @@ namespace SysProfessor
 
         private void TxtSfiq_TextChanged(object sender, EventArgs e)
         {
+            ErrorIcone.SetError(this.TxtSfiq, string.Empty);
             CalculateAverage();
         }
 
         private void TxtSsq_TextChanged(object sender, EventArgs e)
         {
+            ErrorIcone.SetError(this.TxtSsq, string.Empty);
+            CalculateAverage();
+        }
+
+        private void TxtStq_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(this.TxtStq, string.Empty);
+            CalculateAverage();
+        }
+
+        private void TxtSfoq_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(this.TxtSfoq, string.Empty);
             CalculateAverage();
         }
 
         private void FrmEditScores_FormClosed(object sender, FormClosedEventArgs e)
         {
             _onCloseCallback?.Invoke();
-        }
-
-        private void TxtStq_TextChanged(object sender, EventArgs e)
-        {
-            CalculateAverage();
-        }
-
-        private void TxtSfoq_TextChanged(object sender, EventArgs e)
-        {
-            CalculateAverage();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)

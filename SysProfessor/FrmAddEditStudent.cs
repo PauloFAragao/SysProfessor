@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace SysProfessor
 {
@@ -46,10 +38,11 @@ namespace SysProfessor
             else
             {
                 //Debug.WriteLine("Campo nome não preenchido");
+                ErrorIcone.SetError(this.TxtName, "Insira o nome");
                 ErrorMessage("Campo nome não preenchido", "Campo não preenchido");
 
                 return false;
-                //ErrorIcone.SetError(this.TxtName, "Insira o nome");
+                
             }
 
             //validando o campo numero
@@ -62,20 +55,21 @@ namespace SysProfessor
                 else
                 {
                     //Debug.WriteLine("O valor inserido no campo id não pode ser convertido para inteiro!");
+                    ErrorIcone.SetError(this.TxtNumber, "Insira um número inteiro");
                     ErrorMessage("Valor invalido! - O valor inserido no campo número não pode ser convertido para inteiro!", "Campo preenchido incorretamente");
 
 
                     return false;
-                    //ErrorIcone.SetError(this.TxtNome, "Insira um número inteiro");
+                    
                 }
             }
             else
             {
                 //Debug.WriteLine("Campo numero não preenchido");
+                ErrorIcone.SetError(this.TxtNumber, "Insira um número inteiro");
                 ErrorMessage("Campo número não preenchido", "Campo não preenchido");
 
                 return false;
-                //ErrorIcone.SetError(this.TxtNumber, "Insira o número da chamada");
             }
 
             if (editMode)
@@ -140,6 +134,16 @@ namespace SysProfessor
         {
             if(Save())
                 FormLoader.OpenChildForm(new FrmStudents());
+        }
+
+        private void TxtName_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(TxtName, string.Empty);
+        }
+
+        private void TxtNumber_TextChanged(object sender, EventArgs e)
+        {
+            ErrorIcone.SetError(TxtNumber, string.Empty);
         }
     }
 }

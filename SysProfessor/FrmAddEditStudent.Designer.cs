@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.BtnBack = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -35,6 +36,8 @@
             this.TxtNumber = new System.Windows.Forms.TextBox();
             this.BtnSave = new System.Windows.Forms.Button();
             this.BtnCancel = new System.Windows.Forms.Button();
+            this.ErrorIcone = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).BeginInit();
             this.SuspendLayout();
             // 
             // BtnBack
@@ -73,6 +76,7 @@
             this.TxtName.Name = "TxtName";
             this.TxtName.Size = new System.Drawing.Size(238, 20);
             this.TxtName.TabIndex = 3;
+            this.TxtName.TextChanged += new System.EventHandler(this.TxtName_TextChanged);
             // 
             // TxtNumber
             // 
@@ -80,6 +84,7 @@
             this.TxtNumber.Name = "TxtNumber";
             this.TxtNumber.Size = new System.Drawing.Size(82, 20);
             this.TxtNumber.TabIndex = 4;
+            this.TxtNumber.TextChanged += new System.EventHandler(this.TxtNumber_TextChanged);
             // 
             // BtnSave
             // 
@@ -101,6 +106,12 @@
             this.BtnCancel.UseVisualStyleBackColor = true;
             this.BtnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
+            // ErrorIcone
+            // 
+            this.ErrorIcone.BlinkRate = 0;
+            this.ErrorIcone.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.ErrorIcone.ContainerControl = this;
+            // 
             // FrmAddEditStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -115,6 +126,7 @@
             this.Controls.Add(this.BtnBack);
             this.Name = "FrmAddEditStudent";
             this.Text = "FrmAddEditStudent";
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorIcone)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,5 +141,6 @@
         private System.Windows.Forms.TextBox TxtNumber;
         private System.Windows.Forms.Button BtnSave;
         private System.Windows.Forms.Button BtnCancel;
+        private System.Windows.Forms.ErrorProvider ErrorIcone;
     }
 }
