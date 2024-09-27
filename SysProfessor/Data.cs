@@ -84,6 +84,7 @@ namespace SysProfessor
                     // Log ou tratamento da exceção pode ser adicionado aqui
                     // Exemplo: Console.WriteLine(ex.Message);
                     DtResultado = null;
+                    Debug.WriteLine($"Erro: {ex.Message}");
                 }
             }
             return DtResultado;
@@ -302,6 +303,7 @@ namespace SysProfessor
                     // Log ou tratamento da exceção pode ser adicionado aqui
                     // Exemplo: Console.WriteLine(ex.Message);
                     DtResultado = null;
+                    Debug.WriteLine($"Erro: {ex.Message}");
                 }
             }
             return DtResultado;
@@ -454,7 +456,7 @@ namespace SysProfessor
                     // Abrindo a conexão ao banco de dados
                     SqlCon.Open();
 
-                    // Comando SQL - que está no banco de dados
+                    //consultando a quantidade de alunos inseridos no banco de dados
                     using (SqlCommand sqlCmd = new SqlCommand("sp_get_studants_amount", SqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
@@ -472,6 +474,7 @@ namespace SysProfessor
                         resp[0] = (int)parStudantsAmount.Value;
                     }
 
+                    //consultando a quantidade de máterias inseridas no banco de dados
                     using (SqlCommand sqlCmd = new SqlCommand("sp_get_discipline_amount", SqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
@@ -667,6 +670,7 @@ namespace SysProfessor
 
         //------------------------------------- Notas -------------------------------------
 
+        //método que vai retornar as materias com base em um aluno
         public static DataTable GetStudentDisciplines(int idStudant)
         {
             DataTable dtResult = new DataTable("disciplines");
@@ -682,7 +686,7 @@ namespace SysProfessor
                     // Abrindo a conexão ao banco de dados
                     sqlCon.Open();
 
-                    // Comando SQL - que está no banco de dados
+                    // pegando dados da tabela das máterias
                     using (SqlCommand sqlCmd = new SqlCommand("sp_show_discipline", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
@@ -698,8 +702,6 @@ namespace SysProfessor
                                 string name = reader.GetString(1);
                                 decimal media = reader.GetDecimal(2);
 
-                                //Debug.WriteLine($"id: {id} nome: {name} media: {media}");
-
                                 //criando uma tupla
                                 Tuple<int, string, decimal> disciplione = Tuple.Create(id, name, media);
 
@@ -709,7 +711,7 @@ namespace SysProfessor
                         }
                     }
 
-                    // Comando SQL - que está no banco de dados
+                    // pegando as notas do aluno idStudant
                     using (SqlCommand sqlCmd = new SqlCommand("sp_search_scores_from_studant", sqlCon))
                     {
                         //Define o tipo de comando como StoredProcedure, 
@@ -725,34 +727,6 @@ namespace SysProfessor
                             // Preenchendo o DataTable
                             sqlDat.Fill(dtResult);
                         }
-
-                        // Adicionando a nova coluna para o nome da disciplina
-                        dtResult.Columns.Add("disciplineName", typeof(string));
-
-                        // Reorganizando as colunas para que 'disciplineName' fique depois de 'idmateria'
-                        dtResult.Columns["disciplineName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
-
-                        // Adicionando a nova coluna para o status
-                        dtResult.Columns.Add("status", typeof(string));
-
-                        //mudando o valor da coluna onte estão os ids das materias
-                        foreach (DataRow row in dtResult.Rows)
-                        {
-                            foreach (Tuple<int, string, decimal> discipline in disciplines)
-                            {
-                                if ( (int)row["idmateria"] == discipline.Item1 )
-                                    row["disciplineName"] = discipline.Item2;
-                                
-
-                                if( (decimal)row["media"] >= discipline.Item3 )
-                                    row["status"] = "Aprovado";
-
-                                else
-                                    row["status"] = "Reprovado";
-                            }
-                            //Debug.WriteLine("valor: "+ row["disciplineName"]);
-                        }
-                        
                     }
                 }
                 catch (Exception ex)
@@ -762,10 +736,11 @@ namespace SysProfessor
                 }
             }
 
-
-            return dtResult;
+            //chamando o método que vai fazer as edições na datatable
+            return EditStudentDisciplinesDataTable(dtResult, disciplines);
         }
 
+        //método que vai retornar os alunos com base em uma materia
         public static DataTable GetDiscliplineStudents(int idDiscipline, decimal average)
         {
             DataTable dtResult = new DataTable("students");
@@ -824,41 +799,6 @@ namespace SysProfessor
                             // Preenchendo o DataTable
                             sqlDat.Fill(dtResult);
                         }
-
-                        // Adicionando uma nova coluna para o nome da disciplina
-                        dtResult.Columns.Add("studentName", typeof(string));
-
-                        //Reorganizando as colunas para que 'studentName' fique depois de 'idmateria'
-                        dtResult.Columns["studentName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
-
-                        //adicionado uma nova coluna para o numero da chamada
-                        dtResult.Columns.Add("numero", typeof(int));
-
-                        //Reorganizando as colunas para que 'numero' fique depois de 'studentName'
-                        dtResult.Columns["numero"].SetOrdinal(dtResult.Columns["studentName"].Ordinal + 1);
-
-                        // Adicionando uma nova coluna para o status
-                        dtResult.Columns.Add("status", typeof(string));
-
-                        //mudando o valor da coluna onte estão os ids das materias
-                        foreach (DataRow row in dtResult.Rows)
-                        {
-                            foreach (Tuple<int, string, int> student in students)
-                            {
-                                if ((int)row["idaluno"] == student.Item1)
-                                {
-                                    row["studentName"] = student.Item2;
-                                    row["numero"] = student.Item3;
-                                }
-
-                                if ((decimal)row["media"] >= average)
-                                    row["status"] = "Aprovado";
-
-                                else
-                                    row["status"] = "Reprovado";
-                            }
-                            //Debug.WriteLine("valor: "+ row["studentName"]);
-                        }
                     }
                 }
                 catch (Exception ex)
@@ -867,9 +807,12 @@ namespace SysProfessor
                     Debug.WriteLine("Exception: " + ex);
                 }
             }
-            return dtResult;
+
+            //chamando o método que vai fazer as edições na datatable
+            return EditDiscliplineStudentsDataTable(dtResult, students, average);
         }
 
+        //método para pesquisar as máterias com base em um aluno
         public static DataTable GetStudentDiscliplinesFilterDiscipline(int idStudant, string name)
         {
             DataTable dtResult = new DataTable("disciplines");
@@ -932,33 +875,6 @@ namespace SysProfessor
                             // Preenchendo o DataTable
                             sqlDat.Fill(dtResult);
                         }
-
-                        // Adicionando a nova coluna para o nome da disciplina
-                        dtResult.Columns.Add("disciplineName", typeof(string));
-
-                        // Reorganizando as colunas para que 'disciplineName' fique depois de 'idmateria'
-                        dtResult.Columns["disciplineName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
-
-                        // Adicionando a nova coluna para o status
-                        dtResult.Columns.Add("status", typeof(string));
-
-                        //mudando o valor da coluna onte estão os ids das materias
-                        foreach (DataRow row in dtResult.Rows)
-                        {
-                            foreach (Tuple<int, string, decimal> discipline in disciplines)
-                            {
-                                if ((int)row["idmateria"] == discipline.Item1)
-                                    row["disciplineName"] = discipline.Item2;
-
-                                if ((decimal)row["media"] >= discipline.Item3)
-                                    row["status"] = "Aprovado";
-
-                                else
-                                    row["status"] = "Reprovado";
-                            }
-                            //Debug.WriteLine("valor: "+ row["disciplineName"]);
-                        }
-
                     }
                 }
                 catch (Exception ex)
@@ -966,12 +882,15 @@ namespace SysProfessor
                     // Log ou tratamento da exceção pode ser adicionado aqui
                     // Exemplo: Console.WriteLine(ex.Message);
                     dtResult = null;
+                    Debug.WriteLine($"Erro: {ex.Message}");
                 }
             }
 
-            return dtResult;
+            //chamando o método que vai fazer as edições na datatable
+            return EditStudentDisciplinesDataTable(dtResult, disciplines);
         }
 
+        //método para pesquisar os alunos com base em uma materia
         public static DataTable GetDisciplineStudentsFilderStudent(int idDiscipline, decimal average, string name)
         {
             DataTable dtResult = new DataTable("students");
@@ -1034,42 +953,6 @@ namespace SysProfessor
                             // Preenchendo o DataTable
                             sqlDat.Fill(dtResult);
                         }
-
-                        // Adicionando a nova coluna para o nome da disciplina
-                        dtResult.Columns.Add("studentName", typeof(string));
-
-                        // Reorganizando as colunas para que 'disciplineName' fique depois de 'idmateria'
-                        dtResult.Columns["studentName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
-
-                        //adicionado uma nova coluna para o numero da chamada
-                        dtResult.Columns.Add("numero", typeof(int));
-
-                        //Reorganizando as colunas para que 'numero' fique depois de 'studentName'
-                        dtResult.Columns["numero"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 2);
-
-                        // Adicionando a nova coluna para o status
-                        dtResult.Columns.Add("status", typeof(string));
-
-                        //mudando o valor da coluna onte estão os ids das materias
-                        foreach (DataRow row in dtResult.Rows)
-                        {
-                            foreach (Tuple<int, string, int> student in students)
-                            {
-                                if ((int)row["idaluno"] == student.Item1)
-                                {
-                                    row["studentName"] = student.Item2;
-                                    row["numero"] = student.Item3;
-                                }
-
-                                if ((decimal)row["media"] >= average)
-                                    row["status"] = "Aprovado";
-
-                                else
-                                    row["status"] = "Reprovado";
-                            }
-                            //Debug.WriteLine("valor: "+ row["studentName"]);
-                        }
-
                     }
 
                 }
@@ -1080,9 +963,11 @@ namespace SysProfessor
                 }
             }
 
-            return dtResult;
+            //chamando o método que vai fazer as edições na datatable
+            return EditDiscliplineStudentsDataTable(dtResult, students, average);
         }
 
+        //método para editar notas
         public static string EditScores(int id, decimal sfiq, decimal ssq, decimal stq, decimal sfoq, decimal average)
         {
             string resp = "";
@@ -1138,6 +1023,81 @@ namespace SysProfessor
             }
 
             return resp;
+        }
+
+        //------------------------------------- editar Datatable ------------------------------------
+        //métodos que editam o Datatable para adicinoar novas colunas e colodar dados nessas colunas
+
+        private static DataTable EditStudentDisciplinesDataTable(DataTable dtResult, List<Tuple<int, string, decimal>> disciplines)
+        {
+            // Adicionando a nova coluna para o nome da disciplina
+            dtResult.Columns.Add("disciplineName", typeof(string));
+
+            // Reorganizando as colunas para que 'disciplineName' fique depois de 'idmateria'
+            dtResult.Columns["disciplineName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
+
+            // Adicionando a nova coluna para o status
+            dtResult.Columns.Add("status", typeof(string));
+
+            //mudando o valor da coluna onte estão os ids das materias
+            foreach (DataRow row in dtResult.Rows)
+            {
+                foreach (Tuple<int, string, decimal> discipline in disciplines)
+                {
+                    if ((int)row["idmateria"] == discipline.Item1)
+                        row["disciplineName"] = discipline.Item2;
+
+
+                    if ((decimal)row["media"] >= discipline.Item3)
+                        row["status"] = "Aprovado";
+
+                    else
+                        row["status"] = "Reprovado";
+                }
+            }
+
+            return dtResult;
+        }
+
+        private static DataTable EditDiscliplineStudentsDataTable(DataTable dtResult, List<Tuple<int, string, int>> students, decimal average)
+        {
+            Debug.WriteLine("Chamado aqui");
+            // Adicionando uma nova coluna para o nome da disciplina
+            dtResult.Columns.Add("studentName", typeof(string));
+
+            //Reorganizando as colunas para que 'studentName' fique depois de 'idmateria'
+            dtResult.Columns["studentName"].SetOrdinal(dtResult.Columns["idmateria"].Ordinal + 1);
+
+            //adicionado uma nova coluna para o numero da chamada
+            dtResult.Columns.Add("numero", typeof(int));
+
+            //Reorganizando as colunas para que 'numero' fique depois de 'studentName'
+            dtResult.Columns["numero"].SetOrdinal(dtResult.Columns["studentName"].Ordinal + 1);
+
+            // Adicionando uma nova coluna para o status
+            dtResult.Columns.Add("status", typeof(string));
+
+            //mudando o valor da coluna onte estão os ids das materias
+            foreach (DataRow row in dtResult.Rows)
+            {
+                foreach (Tuple<int, string, int> student in students)
+                {
+                    if ((int)row["idaluno"] == student.Item1)
+                    {
+                        row["studentName"] = student.Item2;
+                        row["numero"] = student.Item3;
+                    }
+
+                    if ((decimal)row["media"] >= average)
+                        row["status"] = "Aprovado";
+
+                    else
+                        row["status"] = "Reprovado";
+                }
+                //Debug.WriteLine("valor: "+ row["studentName"]);
+            }
+
+            return dtResult;
         }
 
         //------------------------------------- SqlParameter -------------------------------------

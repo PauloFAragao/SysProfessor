@@ -129,7 +129,6 @@ namespace SysProfessor
 
         private bool ReadThirdQuarterScore()
         {
-            bool ret = true;
             //validando o campo numero
             if (!String.IsNullOrWhiteSpace(this.TxtStq.Text))
             {
